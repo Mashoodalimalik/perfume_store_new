@@ -146,6 +146,11 @@ const Navbar = () => {
                     </form>
                 </div>
             </div>
+            {/* Mobile Nav Overlay */}
+            <div
+                className={`mobile-nav-overlay ${isMobileMenuOpen ? 'open' : ''}`}
+                onClick={() => setIsMobileMenuOpen(false)}
+            />
         </nav>
     );
 };
