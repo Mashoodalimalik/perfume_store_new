@@ -6,31 +6,43 @@ import { motion } from 'framer-motion';
 import './OrderTracking.css';
 
 const OrderTracking = () => {
-    const [orderId, setOrderId] = useState('');
-    const [foundOrder, setFoundOrder] = useState(null);
+    const [searchMode, setSearchMode] = useState('id'); // 'id' or 'email'
+    const [searchTerm, setSearchTerm] = useState('');
+    const [foundOrders, setFoundOrders] = useState([]);
+    const [selectedOrder, setSelectedOrder] = useState(null);
     const [error, setError] = useState('');
     const { orders } = useOrders();
 
     const handleSearch = (e) => {
         e.preventDefault();
         setError('');
-        setFoundOrder(null);
+        setFoundOrders([]);
+        setSelectedOrder(null);
 
-        if (!orderId.trim()) {
-            setError('Please enter an Order ID');
+        if (!searchTerm.trim()) {
+            setError(`Please enter an ${searchMode === 'id' ? 'Order ID' : 'Email Address'}`);
             return;
         }
 
-        // Basic clean up of input
-        const searchId = orderId.replace('#', '').trim();
-        
-        // Find order - handle both string and number IDs
-        const order = orders.find(o => String(o.id) === String(searchId));
+        const term = searchTerm.trim().toLowerCase();
+        let results = [];
 
-        if (order) {
-            setFoundOrder(order);
+        if (searchMode === 'id') {
+            const id = term.replace('#', '');
+            const match = orders.find(o => String(o.id) === id);
+            if (match) results = [match];
         } else {
-            setError('Order not found. Please check your Order ID and try again.');
+            // Email search
+            results = orders.filter(o => o.email?.toLowerCase() === term);
+        }
+
+        if (results.length > 0) {
+            setFoundOrders(results);
+            if (results.length === 1) {
+                setSelectedOrder(results[0]);
+            }
+        } else {
+            setError('No orders found with provided information.');
         }
     };
 
@@ -52,33 +64,98 @@ const OrderTracking = () => {
         return statuses.indexOf(status);
     };
 
-    const currentStep = foundOrder ? getStatusStep(foundOrder.status) : 0;
+    const renderOrderDetails = (order) => {
+        const currentStep = getStatusStep(order.status);
+
+        return (
+            <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="order-result-card"
+            >
+                <div className="result-header">
+                    <div>
+                        <h2>Order #{order.id}</h2>
+                        <p className="order-date">Placed on {new Date(order.date).toLocaleDateString()}</p>
+                    </div>
+                    <div className={`status-badge-lg ${order.status.toLowerCase()}`}>
+                        {order.status}
+                    </div>
+                </div>
+
+                {order.status !== 'Cancelled' && (
+                    <div className="progress-track">
+                        <div className="progress-line">
+                            <div className="progress-fill" style={{ width: `${(currentStep / 3) * 100}%` }}></div>
+                        </div>
+                        {['Order Placed', 'Processing', 'Shipped', 'Delivered'].map((label, idx) => (
+                            <div key={idx} className={`step ${currentStep >= idx ? 'active' : ''}`}>
+                                <div className="step-dot"></div>
+                                <span className="step-label">{label}</span>
+                            </div>
+                        ))}
+                    </div>
+                )}
+
+                <div className="order-items-preview">
+                    <h3>Items in Shipment</h3>
+                    {order.items.map((item, idx) => (
+                        <div key={idx} className="track-item">
+                            <span>{item.qty}x {item.name}</span>
+                            <span>${(item.price ? item.price * item.qty : 0).toLocaleString()}</span>
+                        </div>
+                    ))}
+                    <div className="track-total">
+                        <span>Total Amount</span>
+                        <span>${order.total.toLocaleString()}</span>
+                    </div>
+                </div>
+            </motion.div>
+        );
+    };
 
     return (
         <div className="order-tracking-page">
             <div className="tracking-container">
                 <div className="tracking-header">
                     <h1>Track Your Order</h1>
-                    <p>Enter your Order ID to see the current status of your shipment.</p>
+                    <p>Enter your details below to check the status of your shipment.</p>
+
+                    <div className="search-mode-toggle">
+                        <button
+                            className={`toggle-btn ${searchMode === 'id' ? 'active' : ''}`}
+                            onClick={() => { setSearchMode('id'); setSearchTerm(''); setError(''); setFoundOrders([]); setSelectedOrder(null); }}
+                        >
+                            By Order ID
+                        </button>
+                        <button
+                            className={`toggle-btn ${searchMode === 'email' ? 'active' : ''}`}
+                            onClick={() => { setSearchMode('email'); setSearchTerm(''); setError(''); setFoundOrders([]); setSelectedOrder(null); }}
+                        >
+                            By Email
+                        </button>
+                    </div>
                 </div>
 
                 <form onSubmit={handleSearch} className="tracking-form">
                     <div className="input-wrapper">
                         <Search className="search-icon" size={20} />
                         <input
-                            type="text"
-                            placeholder="Enter Order ID (e.g., 1001)"
-                            value={orderId}
-                            onChange={(e) => setOrderId(e.target.value)}
+                            type={searchMode === 'id' ? 'text' : 'email'}
+                            placeholder={searchMode === 'id' ? "Enter Order ID (e.g., 1001)" : "Enter Email Address"}
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
                             className="tracking-input"
                         />
                     </div>
-                    <Button type="submit" size="lg">Track Order</Button>
+                    <Button type="submit" size="lg">
+                        {searchMode === 'id' ? 'Track Order' : 'Find My Orders'}
+                    </Button>
                 </form>
 
                 {error && (
-                    <motion.div 
-                        initial={{ opacity: 0, y: 10 }} 
+                    <motion.div
+                        initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         className="error-message"
                     >
@@ -86,64 +163,40 @@ const OrderTracking = () => {
                     </motion.div>
                 )}
 
-                {foundOrder && (
-                    <motion.div 
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        className="order-result-card"
-                    >
-                        <div className="result-header">
-                            <div>
-                                <h2>Order #{foundOrder.id}</h2>
-                                <p className="order-date">Placed on {new Date(foundOrder.date).toLocaleDateString()}</p>
+                {/* List of orders found via Email */}
+                {!selectedOrder && foundOrders.length > 0 && (
+                    <div className="found-orders-list">
+                        <h3>Found {foundOrders.length} Order{foundOrders.length > 1 ? 's' : ''}</h3>
+                        {foundOrders.map(order => (
+                            <div key={order.id} className="order-list-item" onClick={() => setSelectedOrder(order)}>
+                                <div className="list-item-info">
+                                    <span className="list-item-id">Order #{order.id}</span>
+                                    <span className="list-item-date">{new Date(order.date).toLocaleDateString()}</span>
+                                </div>
+                                <div className={`status-badge-sm ${order.status.toLowerCase()}`}>
+                                    {order.status}
+                                </div>
+                                <div className="list-item-total">${order.total.toLocaleString()}</div>
                             </div>
-                            <div className={`status-badge-lg ${foundOrder.status.toLowerCase()}`}>
-                                {foundOrder.status}
-                            </div>
-                        </div>
+                        ))}
+                    </div>
+                )}
 
-                        {foundOrder.status !== 'Cancelled' && (
-                            <div className="progress-track">
-                                <div className="progress-line">
-                                    <div className="progress-fill" style={{ width: `${(currentStep / 3) * 100}%` }}></div>
-                                </div>
-                                <div className={`step ${currentStep >= 0 ? 'active' : ''}`}>
-                                    <div className="step-dot"></div>
-                                    <span className="step-label">Order Placed</span>
-                                </div>
-                                <div className={`step ${currentStep >= 1 ? 'active' : ''}`}>
-                                    <div className="step-dot"></div>
-                                    <span className="step-label">Processing</span>
-                                </div>
-                                <div className={`step ${currentStep >= 2 ? 'active' : ''}`}>
-                                    <div className="step-dot"></div>
-                                    <span className="step-label">Shipped</span>
-                                </div>
-                                <div className={`step ${currentStep >= 3 ? 'active' : ''}`}>
-                                    <div className="step-dot"></div>
-                                    <span className="step-label">Delivered</span>
-                                </div>
-                            </div>
+                {/* Single Order Details */}
+                {selectedOrder && (
+                    <div>
+                        {foundOrders.length > 1 && (
+                            <button className="back-to-list-btn" onClick={() => setSelectedOrder(null)}>
+                                &larr; Back to Order List
+                            </button>
                         )}
-
-                        <div className="order-items-preview">
-                            <h3>Items in Shipment</h3>
-                            {foundOrder.items.map((item, idx) => (
-                                <div key={idx} className="track-item">
-                                    <span>{item.qty}x {item.name}</span>
-                                    <span>${(item.price ? item.price * item.qty : 0).toLocaleString()}</span>
-                                </div>
-                            ))}
-                            <div className="track-total">
-                                <span>Total Amount</span>
-                                <span>${foundOrder.total.toLocaleString()}</span>
-                            </div>
-                        </div>
-                    </motion.div>
+                        {renderOrderDetails(selectedOrder)}
+                    </div>
                 )}
             </div>
         </div>
     );
-};
 
-export default OrderTracking;
+
+    export default OrderTracking;
+};

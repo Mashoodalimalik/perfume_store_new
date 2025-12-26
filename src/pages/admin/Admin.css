@@ -278,7 +278,6 @@
     gap: 1rem;
 }
 
-/* Tables */
 /* Tables - Premium List Style */
 .admin-table-container {
     background: transparent;
@@ -407,7 +406,6 @@ button.btn-secondary:hover {
     color: #000;
 }
 
-/* Dashboard Stats */
 /* Dashboard Stats - Premium Dark */
 .stats-grid {
     display: grid;
@@ -514,7 +512,6 @@ button.btn-secondary:hover {
     padding-bottom: 1rem;
 }
 
-/* Recent Orders */
 /* Recent Orders - Elegant List */
 .orders-list {
     display: flex;
@@ -586,7 +583,6 @@ button.btn-secondary:hover {
     border: none;
 }
 
-/* Inventory Items */
 /* Inventory Items - Elegant List */
 .inventory-list {
     display: flex;
@@ -632,11 +628,13 @@ button.btn-secondary:hover {
     font-weight: 500;
 }
 
-/* MOBILE MEDIA QUERY */
+/* MOBILE MEDIA QUERY - Clean Revision */
 @media (max-width: 900px) {
     .admin-main {
         margin-left: 0;
         padding-top: 80px;
+        padding-left: 1rem;
+        padding-right: 1rem;
     }
 
     .admin-mobile-header {
@@ -669,9 +667,24 @@ button.btn-secondary:hover {
         cursor: pointer;
     }
 
+    /* Fixed Sidebar for Mobile */
     .admin-sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 280px;
+        /* Slightly wider for touch targets */
+        height: 100vh;
+        background: #1a1a1a;
+        /* Solid background, no gradient mismatch */
+        z-index: 2000;
+        /* Higher than header */
         transform: translateX(-100%);
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         box-shadow: 10px 0 30px rgba(0, 0, 0, 0.5);
+        display: flex;
+        flex-direction: column;
+        padding: 2rem 1.5rem;
     }
 
     .admin-sidebar.active {
@@ -684,8 +697,24 @@ button.btn-secondary:hover {
         border: none;
         color: #fff;
         cursor: pointer;
+        padding: 4px;
     }
 
+    .sidebar-header {
+        margin-bottom: 2rem;
+    }
+
+    .sidebar-header h2 {
+        font-size: 1.5rem;
+    }
+
+    /* Nav Items on Mobile */
+    .nav-item {
+        padding: 16px;
+        font-size: 1rem;
+    }
+
+    /* Overlay */
     .sidebar-overlay {
         display: none;
         position: fixed;
@@ -694,7 +723,8 @@ button.btn-secondary:hover {
         width: 100%;
         height: 100%;
         background: rgba(0, 0, 0, 0.7);
-        z-index: 99;
+        z-index: 1999;
+        /* Below sidebar, above header */
         backdrop-filter: blur(4px);
     }
 
