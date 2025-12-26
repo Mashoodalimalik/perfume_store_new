@@ -5,12 +5,12 @@ const ProductContext = createContext();
 export const useProducts = () => useContext(ProductContext);
 
 const INITIAL_PRODUCTS = [
-    { id: 1, name: "Midnight Rose", category: "Floral", price: 120, image: "/images/perfume_floral_elegant.png", collections: ['best-seller', 'new-arrival'] },
-    { id: 2, name: "Golden Amber", category: "Oriental", price: 145, image: "/images/perfume_oriental_gold.png", collections: ['best-seller'] },
-    { id: 3, name: "Ocean Breeze", category: "Fresh", price: 95, image: "/images/perfume_ocean_fresh.png", collections: ['new-arrival', 'sale'] },
-    { id: 4, name: "Velvet Oud", category: "Woody", price: 180, image: "/images/perfume_woody_luxury.png", collections: ['gift-set'] },
-    { id: 5, name: "Citrus Splash", category: "Citrus", price: 85, image: "/images/perfume_ocean_fresh.png", collections: ['sale'] },
-    { id: 6, name: "Vanilla Dreams", category: "Gourmand", price: 110, image: "/images/perfume_oriental_gold.png", collections: ['gift-set', 'best-seller'] },
+    { id: 1, name: "Midnight Rose", category: "Floral", price: 120, image: "/images/perfume_floral_elegant.png", collections: ['best-seller', 'new-arrival'], stock: 15 },
+    { id: 2, name: "Golden Amber", category: "Oriental", price: 145, image: "/images/perfume_oriental_gold.png", collections: ['best-seller'], stock: 3 },
+    { id: 3, name: "Ocean Breeze", category: "Fresh", price: 95, image: "/images/perfume_ocean_fresh.png", collections: ['new-arrival', 'sale'], stock: 20 },
+    { id: 4, name: "Velvet Oud", category: "Woody", price: 180, image: "/images/perfume_woody_luxury.png", collections: ['gift-set'], stock: 2 },
+    { id: 5, name: "Citrus Splash", category: "Citrus", price: 85, image: "/images/perfume_ocean_fresh.png", collections: ['sale'], stock: 8 },
+    { id: 6, name: "Vanilla Dreams", category: "Gourmand", price: 110, image: "/images/perfume_oriental_gold.png", collections: ['gift-set', 'best-seller'], stock: 5 },
 ];
 
 export const ProductProvider = ({ children }) => {

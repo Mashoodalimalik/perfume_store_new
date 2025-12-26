@@ -6,10 +6,10 @@ export const useOrders = () => useContext(OrderContext);
 
 export const OrderProvider = ({ children }) => {
     const INITIAL_ORDERS = [
-        { id: '1001', date: new Date(Date.now() - 86400000).toISOString(), customer: 'Jane Doe', total: 240, status: 'Processed', items: [{ name: 'Midnight Rose', qty: 2 }] },
-        { id: '1002', date: new Date().toISOString(), customer: 'John Smith', total: 145, status: 'Pending', items: [{ name: 'Golden Amber', qty: 1 }] },
-        { id: '1003', date: new Date(Date.now() - 172800000).toISOString(), customer: 'Alice Brown', total: 375, status: 'Processed', items: [{ name: 'Velvet Oud', qty: 1 }, { name: 'Mystic Saffron', qty: 1 }] },
-        { id: '1004', date: new Date().toISOString(), customer: 'Bob Wilson', total: 95, status: 'Pending', items: [{ name: 'Ocean Breeze', qty: 1 }] },
+        { id: '1001', date: new Date().toISOString(), customer: 'Muhammad Umer Khan', total: 13900, status: 'Pending', items: [{ name: 'Midnight Rose', qty: 2 }] },
+        { id: '1002', date: new Date().toISOString(), customer: 'Mashood Ali Malik', total: 30400, status: 'Pending', items: [{ name: 'Golden Amber', qty: 1 }] },
+        { id: '1003', date: new Date(Date.now() - 86400000).toISOString(), customer: 'Ushna Malik', total: 28400, status: 'Cancelled', items: [{ name: 'Velvet Oud', qty: 1 }] },
+        { id: '1004', date: new Date(Date.now() - 86400000).toISOString(), customer: 'Ali Mashood077', total: 27400, status: 'Cancelled', items: [{ name: 'Ocean Breeze', qty: 1 }] },
     ];
 
     const [orders, setOrders] = useState(() => {
