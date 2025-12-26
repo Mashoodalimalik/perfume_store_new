@@ -70,7 +70,7 @@ const Navbar = () => {
 
                     {user ? (
                         <div className="user-menu">
-                            <span className="user-greeting">Hi, {user.name.split(' ')[0]}</span>
+                            <span className="user-greeting">Hi, {(user.user_metadata?.full_name || user.email || 'User').split(' ')[0]}</span>
                             <button className="icon-btn" onClick={handleLogout} aria-label="Logout">
                                 <LogOut size={20} />
                             </button>
@@ -117,7 +117,7 @@ const Navbar = () => {
                         {user ? (
                             <div className="mobile-auth-section">
                                 <button className="mobile-footer-link logout" onClick={() => { handleLogout(); setIsMobileMenuOpen(false); }}>
-                                    <LogOut size={20} /> Log out ({user.name.split(' ')[0]})
+                                    <LogOut size={20} /> Log out ({(user.user_metadata?.full_name || user.email || 'User').split(' ')[0]})
                                 </button>
                             </div>
                         ) : (

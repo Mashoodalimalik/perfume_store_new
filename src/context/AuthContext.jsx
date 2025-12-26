@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { supabase } from '../supabaseClient';
 
 const AuthContext = createContext();
 
@@ -11,10 +12,27 @@ export const AuthProvider = ({ children }) => {
     });
 
     // Customer State
-    const [user, setUser] = useState(() => {
-        const savedUser = localStorage.getItem('currentUser');
-        return savedUser ? JSON.parse(savedUser) : null;
-    });
+    const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        // Check active session
+        const getSession = async () => {
+            const { data: { session } } = await supabase.auth.getSession();
+            setUser(session?.user ?? null);
+            setLoading(false);
+        };
+
+        getSession();
+
+        // Listen for changes
+        const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+            setUser(session?.user ?? null);
+            setLoading(false);
+        });
+
+        return () => subscription.unsubscribe();
+    }, []);
 
     // Admin Login
     const adminLogin = (username, password) => {
@@ -32,44 +50,32 @@ export const AuthProvider = ({ children }) => {
     };
 
     // Customer Auth
-    const customerLogin = (email, password) => {
-        // Simulate login - in real app, check against database
-        // For demo, we just accept any non-empty input or check simulated users
-        const users = JSON.parse(localStorage.getItem('users') || '[]');
-        const foundUser = users.find(u => u.email === email && u.password === password);
+    const customerLogin = async (email, password) => {
+        try {
+            const { data, error } = await supabase.auth.signInWithPassword({
+                email,
+                password,
+            });
 
-        if (foundUser) {
-            setUser({ name: foundUser.name, email: foundUser.email });
-            localStorage.setItem('currentUser', JSON.stringify({ name: foundUser.name, email: foundUser.email }));
-            return { success: true };
+            if (error) {
+                return { success: false, message: error.message };
+            }
+            return { success: true, data };
+        } catch (error) {
+            return { success: false, message: error.message };
         }
-        return { success: false, message: 'Invalid email or password' };
     };
 
-    const customerSignup = (name, email, password) => {
-        const users = JSON.parse(localStorage.getItem('users') || '[]');
-        if (users.find(u => u.email === email)) {
-            return { success: false, message: 'Email already exists' };
-        }
+    // Signup is now handled in Signup.jsx directly, but we can expose a helper if needed.
+    // For consistency with legacy code, we can keep the function signature but warn or wrap it.
+    // However, since we updated Signup.jsx to use supabase directly, we don't strictly need it here.
+    // We'll leave a placeholder or just remove it if no other component uses it.
+    // Checking file usage: Signup.jsx was the main user.
 
-        const newUser = { name, email, password }; // obviously don't store plain passwords in real apps
-        users.push(newUser);
-        localStorage.setItem('users', JSON.stringify(users));
-
-        // Auto login after signup
-        setUser({ name, email });
-        localStorage.setItem('currentUser', JSON.stringify({ name, email }));
-
-        // Simulate Email Confirmation
-        console.log(`[Email Service] Sending account confirmation to ${email}`);
-        alert(`Welcome, ${name}! A confirmation email has been sent to ${email}. Please check your inbox.`);
-
-        return { success: true };
-    };
-
-    const customerLogout = () => {
+    const customerLogout = async () => {
+        await supabase.auth.signOut();
         setUser(null);
-        localStorage.removeItem('currentUser');
+        // localStorage.removeItem('currentUser'); // No longer needed
     };
 
     return (
@@ -79,10 +85,10 @@ export const AuthProvider = ({ children }) => {
             adminLogout,
             user,
             customerLogin,
-            customerSignup,
-            customerLogout
+            customerLogout,
+            loading
         }}>
-            {children}
+            {!loading && children}
         </AuthContext.Provider>
     );
 };

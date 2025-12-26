@@ -10,7 +10,7 @@ const Login = () => {
     const { customerLogin, adminLogin } = useAuth();
     const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         // Check for Admin Login
@@ -25,7 +25,7 @@ const Login = () => {
         }
 
         // Customer Login
-        const result = customerLogin(formData.identifier, formData.password);
+        const result = await customerLogin(formData.identifier, formData.password);
         if (result.success) {
             navigate('/'); // Redirect to home or dashboard
         } else {
