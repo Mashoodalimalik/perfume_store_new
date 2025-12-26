@@ -7,7 +7,8 @@ import './Navbar.css';
 
 const Navbar = () => {
     const [isScrolled, setIsScrolled] = useState(false);
-    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [isSearchOpen, setIsSearchOpen] = useState(false);
+    const [searchQuery, setSearchQuery] = useState('');
     const { cartCount } = useCart();
     const { user, customerLogout } = useAuth();
     const navigate = useNavigate();
@@ -25,8 +26,14 @@ const Navbar = () => {
         navigate('/');
     };
 
+    const handleSearchSubmit = (e) => {
+        e.preventDefault();
+        setIsSearchOpen(false);
+        navigate('/shop');
+    };
+
     return (
-        <nav className={`navbar ${isScrolled ? 'scrolled' : ''}`}>
+        <nav className={`navbar ${isSearchOpen ? 'search-active' : ''} ${isScrolled ? 'scrolled' : ''}`}>
             <div className="container navbar-container">
                 <Link to="/" className="logo">
                     L'ESSENCE
@@ -44,7 +51,7 @@ const Navbar = () => {
                 </div>
 
                 <div className="nav-actions">
-                    <button className="icon-btn" aria-label="Search">
+                    <button className="icon-btn" aria-label="Search" onClick={() => setIsSearchOpen(!isSearchOpen)}>
                         <Search size={20} />
                     </button>
 
@@ -99,6 +106,23 @@ const Navbar = () => {
                             </button>
                         )}
                     </div>
+                </div>
+            </div>
+
+            {/* Search Bar Overlay */}
+            <div className={`search-bar-overlay ${isSearchOpen ? 'open' : ''}`}>
+                <div className="container">
+                    <form onSubmit={handleSearchSubmit} className="search-form">
+                        <input
+                            type="text"
+                            placeholder="Search..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                        />
+                        <button type="button" className="close-search" onClick={() => setIsSearchOpen(false)}>
+                            <X size={20} />
+                        </button>
+                    </form>
                 </div>
             </div>
         </nav>
