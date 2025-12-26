@@ -5,14 +5,27 @@ import Button from '../components/Button';
 import './CustomerAuth.css';
 
 const Login = () => {
-    const [formData, setFormData] = useState({ email: '', password: '' });
+    const [formData, setFormData] = useState({ identifier: '', password: '' });
     const [error, setError] = useState('');
-    const { customerLogin } = useAuth();
+    const { customerLogin, adminLogin } = useAuth();
     const navigate = useNavigate();
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const result = customerLogin(formData.email, formData.password);
+
+        // Check for Admin Login
+        if (formData.identifier.toLowerCase() === 'admin') {
+            if (adminLogin(formData.identifier, formData.password)) {
+                navigate('/admin/dashboard');
+                return;
+            } else {
+                setError('Invalid admin credentials');
+                return;
+            }
+        }
+
+        // Customer Login
+        const result = customerLogin(formData.identifier, formData.password);
         if (result.success) {
             navigate('/'); // Redirect to home or dashboard
         } else {
@@ -28,13 +41,14 @@ const Login = () => {
 
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
-                        <label>Email Address</label>
+                        <label>Email or Username</label>
                         <input
-                            type="email"
+                            type="text"
                             required
-                            value={formData.email}
-                            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                            value={formData.identifier}
+                            onChange={(e) => setFormData({ ...formData, identifier: e.target.value })}
                             className="auth-input"
+                            placeholder="Enter your email or 'admin'"
                         />
                     </div>
                     <div className="form-group">

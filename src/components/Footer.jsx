@@ -23,9 +23,9 @@ const Footer = () => {
                     <h3>Shop</h3>
                     <ul>
                         <li><Link to="/shop">Best Sellers</Link></li>
-                        <li><Link to="/shop">New Arrivals</Link></li>
-                        <li><Link to="/shop">Gift Sets</Link></li>
-                        <li><Link to="/shop">Sale</Link></li>
+                        <li><Link to="/new-arrivals">New Arrivals</Link></li>
+                        <li><Link to="/gift-sets">Gift Sets</Link></li>
+                        <li><Link to="/sale">Sale</Link></li>
                     </ul>
                 </div>
 

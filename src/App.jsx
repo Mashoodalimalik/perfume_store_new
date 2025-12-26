@@ -14,6 +14,11 @@ import Signup from './pages/Signup';
 import Contact from './pages/Contact';
 import Sustainability from './pages/Sustainability';
 import Careers from './pages/Careers';
+import Checkout from './pages/Checkout';
+import OrderSuccess from './pages/OrderSuccess';
+import NewArrivals from './pages/NewArrivals';
+import Sale from './pages/Sale';
+import GiftSets from './pages/GiftSets';
 import { AnimatePresence } from 'framer-motion';
 
 // Scroll to top on route change
@@ -38,6 +43,8 @@ const App = () => {
             <Route path="/" element={<Home />} />
             <Route path="/shop" element={<Shop />} />
             <Route path="/cart" element={<Cart />} />
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/order-success" element={<OrderSuccess />} />
             <Route path="/about" element={<About />} />
             <Route path="/admin/login" element={<AdminLogin />} />
             <Route
@@ -54,6 +61,9 @@ const App = () => {
             <Route path="/sustainability" element={<Sustainability />} />
             <Route path="/careers" element={<Careers />} />
             <Route path="/product/:id" element={<Shop />} /> {/* Placeholder to avoid 404 */}
+            <Route path="/new-arrivals" element={<NewArrivals />} />
+            <Route path="/sale" element={<Sale />} />
+            <Route path="/gift-sets" element={<GiftSets />} />
           </Routes>
         </AnimatePresence>
       </main>

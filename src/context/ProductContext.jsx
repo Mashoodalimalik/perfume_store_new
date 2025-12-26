@@ -5,12 +5,12 @@ const ProductContext = createContext();
 export const useProducts = () => useContext(ProductContext);
 
 const INITIAL_PRODUCTS = [
-    { id: 1, name: "Midnight Rose", category: "Floral", price: 120, image: "https://images.unsplash.com/photo-1594035910387-fea4779426e9?q=80&w=800&auto=format&fit=crop" },
-    { id: 2, name: "Golden Amber", category: "Oriental", price: 145, image: "https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?q=80&w=800&auto=format&fit=crop" },
-    { id: 3, name: "Ocean Breeze", category: "Fresh", price: 95, image: "https://images.unsplash.com/photo-1541643600914-78b084683601?q=80&w=800&auto=format&fit=crop" },
-    { id: 4, name: "Velvet Oud", category: "Woody", price: 180, image: "https://images.unsplash.com/photo-1523293188086-b46e0a8041a8?q=80&w=800&auto=format&fit=crop" },
-    { id: 5, name: "Citrus Splash", category: "Citrus", price: 85, image: "https://images.unsplash.com/photo-1595425970377-c9703cf48b6d?q=80&w=800&auto=format&fit=crop" },
-    { id: 6, name: "Vanilla Dreams", category: "Gourmand", price: 110, image: "https://images.unsplash.com/photo-1543438418-8525e9323838?q=80&w=800&auto=format&fit=crop" },
+    { id: 1, name: "Midnight Rose", category: "Floral", price: 120, image: "/images/product_floral.png" },
+    { id: 2, name: "Golden Amber", category: "Oriental", price: 145, image: "/images/product_oriental.png" },
+    { id: 3, name: "Ocean Breeze", category: "Fresh", price: 95, image: "/images/product_fresh.png" },
+    { id: 4, name: "Velvet Oud", category: "Woody", price: 180, image: "/images/product_woody.png" },
+    { id: 5, name: "Citrus Splash", category: "Citrus", price: 85, image: "/images/product_fresh.png" }, // Reusing fresh for citrus as placeholder
+    { id: 6, name: "Vanilla Dreams", category: "Gourmand", price: 110, image: "/images/product_oriental.png" }, // Reusing oriental for gourmand as placeholder
 ];
 
 export const ProductProvider = ({ children }) => {

@@ -36,7 +36,7 @@ const Home = () => {
                 {/* 3D Bottle - Replaced with Static Image */}
                 <div className="hero-image-container">
                     <img
-                        src="https://plus.unsplash.com/premium_photo-1679106770086-f4355693be1b?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8ZnJhZ3JhbmNlfGVufDB8fDB8fHwwhttps://images.unsplash.com/photo-1590736704728-f4730bb30770?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8ZnJhZ3JhbmNlfGVufDB8fDB8fHww"
+                        src="/images/hero_perfume.png"
                         alt="Perfume Bottle"
                     />
                 </div>
