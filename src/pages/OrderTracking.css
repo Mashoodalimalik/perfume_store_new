@@ -94,23 +94,83 @@
     /* Black input text */
 }
 
-/* ... existing styles ... */
+.tracking-input:focus {
+    border-color: var(--color-primary);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+}
+
+.error-message {
+    background-color: #fee2e2;
+    color: #ef4444;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+/* Found Orders List */
+.found-orders-list {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    border: 1px solid #f1f5f9;
+    overflow: hidden;
+    margin-bottom: 2rem;
+}
+
+.found-orders-list h3 {
+    padding: 1.5rem;
+    background: #f8fafc;
+    margin: 0;
+    font-size: 1rem;
+    color: #4b5563;
+    /* Dark Gray */
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.order-list-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem;
+    border-bottom: 1px solid #f1f5f9;
+    cursor: pointer;
+    transition: background 0.2s;
+    background: white;
+    /* Ensure background is white */
+}
+
+.order-list-item:last-child {
+    border-bottom: none;
+}
+
+.order-list-item:hover {
+    background-color: #f8fafc;
+}
+
+.list-item-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
 .list-item-id {
     font-weight: 700;
     color: #000000;
-    /* Black */
+    /* Force Black */
 }
 
 .list-item-date {
     font-size: 0.85rem;
     color: #333333;
-    /* Dark gray */
+    /* Force Dark Gray */
 }
 
 .list-item-total {
     font-weight: 700;
     color: #bfa15f;
-    /* Gold accent, check contrast or use darker gold */
+    /* Gold */
 }
 
 .back-to-list-btn {
@@ -151,15 +211,18 @@
 
 .result-header h2 {
     font-size: 1.5rem;
-    color: var(--color-text-primary);
+    color: #000000;
+    /* Force Black */
     margin-bottom: 0.25rem;
 }
 
 .order-date {
-    color: var(--color-text-secondary);
+    color: #555555;
+    /* Force Dark Gray */
     font-size: 0.9rem;
 }
 
+/* ... Status Badges ... */
 .status-badge-lg {
     padding: 0.5rem 1rem;
     border-radius: 20px;
@@ -177,94 +240,17 @@
     text-transform: uppercase;
 }
 
-.status-badge-lg.pending,
-.status-badge-sm.pending {
-    background: #fff7ed;
-    color: #ea580c;
-}
-
-.status-badge-lg.processing,
-.status-badge-sm.processing {
-    background: #eff6ff;
-    color: #2563eb;
-}
-
-.status-badge-lg.shipped,
-.status-badge-sm.shipped {
-    background: #f0fdf4;
-    color: #16a34a;
-}
-
-.status-badge-lg.delivered,
-.status-badge-sm.delivered {
-    background: #ecfdf5;
-    color: #059669;
-}
-
-.status-badge-lg.cancelled,
-.status-badge-sm.cancelled {
-    background: #fef2f2;
-    color: #dc2626;
-}
-
-/* Progress Track */
-.progress-track {
-    position: relative;
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 3rem;
-    padding: 0 1rem;
-}
-
-.progress-line {
-    position: absolute;
-    top: 10px;
-    left: 40px;
-    right: 40px;
-    height: 3px;
-    background: #e2e8f0;
-    z-index: 0;
-}
-
-.progress-fill {
-    height: 100%;
-    background: var(--color-primary);
-    transition: width 0.5s ease;
-}
-
-.step {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-    width: 80px;
-    text-align: center;
-}
-
-.step-dot {
-    width: 24px;
-    height: 24px;
-    background: white;
-    border: 3px solid #e2e8f0;
-    border-radius: 50%;
-    transition: all 0.3s;
-}
-
-.step.active .step-dot {
-    border-color: var(--color-primary);
-    background: var(--color-primary);
-}
-
+/* ... */
 .step-label {
     font-size: 0.8rem;
-    color: var(--color-text-secondary);
+    color: #666666;
+    /* Force Dark Gray */
     font-weight: 500;
 }
 
 .step.active .step-label {
-    color: var(--color-text-primary);
+    color: #000000;
+    /* Force Black */
     font-weight: 600;
 }
 
@@ -279,7 +265,8 @@
     font-size: 0.95rem;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: var(--color-text-secondary);
+    color: #333333;
+    /* Force Dark Gray */
     margin-bottom: 1rem;
 }
 
@@ -288,7 +275,8 @@
     justify-content: space-between;
     margin-bottom: 0.5rem;
     font-size: 0.95rem;
-    color: var(--color-text-primary);
+    color: #000000;
+    /* Force Black */
 }
 
 .track-total {
@@ -299,6 +287,8 @@
     border-top: 1px solid #e2e8f0;
     font-weight: 700;
     font-size: 1.1rem;
+    color: #000000;
+    /* Force Black */
 }
 
 @media (max-width: 600px) {
