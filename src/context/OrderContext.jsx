@@ -69,17 +69,17 @@ export const OrderProvider = ({ children }) => {
         localStorage.setItem('orders', JSON.stringify(orders));
     }, [orders]);
 
-    const addOrder = (orderItems, total) => {
+    const addOrder = (orderItems, total, customerDetails) => {
         const newOrder = {
             id: Date.now(),
             date: new Date().toISOString(),
             items: orderItems,
             total: total,
             status: 'Pending',
-            customer: 'Guest User', // In a real app, this would come from user auth or checkout form
-            email: 'guest@example.com',
-            phone: 'N/A',
-            address: 'No address provided (Guest Checkout)'
+            customer: customerDetails?.name || 'Guest User',
+            email: customerDetails?.email || 'guest@example.com',
+            phone: customerDetails?.phone || 'N/A',
+            address: customerDetails?.address || 'No address provided'
         };
         setOrders([newOrder, ...orders]);
     };

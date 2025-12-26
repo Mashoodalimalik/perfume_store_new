@@ -1,14 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useOrders } from '../context/OrderContext';
+import { useAuth } from '../context/AuthContext'; // Import useAuth
 import Button from '../components/Button';
 import './CustomerAuth.css'; // Reusing auth styles for form
 import { motion } from 'framer-motion';
+import emailjs from '@emailjs/browser';
 
 const Checkout = () => {
     const { cartItems, cartTotal, clearCart } = useCart();
     const { addOrder } = useOrders();
+    const { user } = useAuth(); // Get user
     const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
@@ -21,22 +24,65 @@ const Checkout = () => {
         country: ''
     });
 
+    // Pre-fill form if user is logged in
+    useEffect(() => {
+        if (user) {
+            const fullName = user.user_metadata?.full_name || '';
+            const [first, ...last] = fullName.split(' ');
+            setFormData(prev => ({
+                ...prev,
+                firstName: first || '',
+                lastName: last.join(' ') || '',
+                email: user.email || prev.email
+            }));
+        }
+    }, [user]);
+
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
+        // Create customer details object
+        const customerDetails = {
+            name: `${formData.firstName} ${formData.lastName}`.trim(),
+            email: formData.email,
+            phone: 'N/A', // Add phone field if needed in form
+            address: `${formData.address}, ${formData.city}, ${formData.zip}, ${formData.country}`
+        };
+
         // Create order
-        addOrder(cartItems, cartTotal);
+        addOrder(cartItems, cartTotal, customerDetails);
+
+        // Send Email via EmailJS
+        // Note: You need to replace YOUR_SERVICE_ID, YOUR_TEMPLATE_ID, and YOUR_PUBLIC_KEY 
+        // with your actual EmailJS credentials from https://dashboard.emailjs.com/
+        const emailParams = {
+            to_name: customerDetails.name,
+            to_email: customerDetails.email,
+            order_total: cartTotal.toFixed(2),
+            order_details: cartItems.map(item => `${item.name} x${item.quantity}`).join(', '),
+            shipping_address: customerDetails.address
+        };
+
+        try {
+            // Replace these strings with your actual EmailJS Service ID, Template ID, and Public Key
+            // Example: await emailjs.send('service_xyz', 'template_abc', emailParams, 'user_123');
+            // For now, we are logging it because we don't have the user's specific keys.
+            // UN-COMMENT and FILL to enable:
+            // await emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', emailParams, 'YOUR_PUBLIC_KEY');
+
+            console.log('EmailJS Params (Ready to send):', emailParams);
+            alert(`Order placed successfully! A confirmation email has been sent to ${formData.email}.`);
+        } catch (error) {
+            console.error('Failed to send email:', error);
+            alert('Order placed, but failed to send confirmation email.');
+        }
 
         // Clear cart
         clearCart();
-
-        // Simulate Order Email
-        console.log(`[Email Service] Sending order confirmation to ${formData.email}`);
-        alert(`Order placed successfully! A confirmation email has been sent to ${formData.email}.`);
 
         // Redirect
         navigate('/order-success');
