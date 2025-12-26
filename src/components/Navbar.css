@@ -319,6 +319,19 @@
 }
 
 @media (max-width: 1350px) {
+    .navbar-container {
+        position: relative;
+    }
+
+    .logo {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        width: auto;
+        text-align: center;
+        z-index: 10;
+    }
+
     .desktop-only {
         display: none;
     }
