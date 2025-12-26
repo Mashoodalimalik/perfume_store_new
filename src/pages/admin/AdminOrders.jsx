@@ -1,6 +1,7 @@
 import React from 'react';
 import { useOrders } from '../../context/OrderContext';
 import { useAuditLogs } from '../../context/AuditLogContext';
+import Button from '../../components/Button';
 
 const AdminOrders = () => {
     const { orders, updateOrderStatus } = useOrders();
@@ -50,17 +51,31 @@ const AdminOrders = () => {
                                     </span>
                                 </td>
                                 <td>
-                                    <select
-                                        value={order.status}
-                                        onChange={(e) => handleStatusChange(order.id, e.target.value)}
-                                        style={{ padding: '4px 8px', borderRadius: '4px', border: '1px solid #cbd5e1' }}
-                                    >
-                                        <option value="Pending">Pending</option>
-                                        <option value="Processed">Processed</option>
-                                        <option value="Shipped">Shipped</option>
-                                        <option value="Delivered">Delivered</option>
-                                        <option value="Cancelled">Cancelled</option>
-                                    </select>
+                                    <div style={{ display: 'flex', gap: '8px' }}>
+                                        <select
+                                            value={order.status}
+                                            onClick={(e) => e.stopPropagation()}
+                                            onChange={(e) => handleStatusChange(order.id, e.target.value)}
+                                            style={{ padding: '4px 8px', borderRadius: '4px', border: '1px solid #cbd5e1' }}
+                                        >
+                                            <option value="Pending">Pending</option>
+                                            <option value="Processing">Processing</option>
+                                            <option value="Shipped">Shipped</option>
+                                            <option value="Delivered">Delivered</option>
+                                            <option value="Cancelled">Cancelled</option>
+                                        </select>
+                                        <Button
+                                            size="sm"
+                                            variant="secondary"
+                                            onClick={() => window.location.href = `/admin/orders/${order.id}`}
+                                        // Using href or useNavigate if we import it, but Link is better. Let's stick to inline simple nav or just import Link. 
+                                        // Actually I can't import Link easily inside this replace block without changing imports. 
+                                        // Let's use window.location for now or I can add a Link import in a separate call. 
+                                        // Wait, I can just use a simple button that navigates. 
+                                        >
+                                            View
+                                        </Button>
+                                    </div>
                                 </td>
                             </tr>
                         ))}

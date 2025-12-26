@@ -12,6 +12,7 @@ import AdminLayout from './components/AdminLayout';
 import AdminOverview from './pages/admin/AdminOverview';
 import AdminProducts from './pages/admin/AdminProducts';
 import AdminOrders from './pages/admin/AdminOrders';
+import AdminOrderDetails from './pages/admin/AdminOrderDetails';
 import AdminAuditLogs from './pages/admin/AdminAuditLogs';
 import ProtectedRoute from './components/ProtectedRoute';
 import Login from './pages/Login';
@@ -23,6 +24,7 @@ import Checkout from './pages/Checkout';
 import OrderSuccess from './pages/OrderSuccess';
 import NewArrivals from './pages/NewArrivals';
 import Sale from './pages/Sale';
+import ProductDetails from './pages/ProductDetails';
 import GiftSets from './pages/GiftSets';
 import BestSellers from './pages/BestSellers';
 import { AnimatePresence } from 'framer-motion';
@@ -66,6 +68,7 @@ const App = () => {
               <Route path="dashboard" element={<AdminOverview />} />
               <Route path="products" element={<AdminProducts />} />
               <Route path="orders" element={<AdminOrders />} />
+              <Route path="orders/:id" element={<AdminOrderDetails />} />
               <Route path="audit-logs" element={<AdminAuditLogs />} />
             </Route>
 
@@ -74,7 +77,7 @@ const App = () => {
             <Route path="/contact" element={<Contact />} />
             <Route path="/sustainability" element={<Sustainability />} />
             <Route path="/careers" element={<Careers />} />
-            <Route path="/product/:id" element={<Shop />} /> {/* Placeholder to avoid 404 */}
+            <Route path="/product/:id" element={<ProductDetails />} />
             <Route path="/new-arrivals" element={<NewArrivals />} />
             <Route path="/best-sellers" element={<BestSellers />} />
             <Route path="/sale" element={<Sale />} />
