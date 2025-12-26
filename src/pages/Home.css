@@ -156,10 +156,11 @@
     }
 
     .hero-image-container {
-        width: 80%;
-        right: -10%;
-        top: 60%;
-        opacity: 0.5;
-        /* Fade it out slightly on mobile to avoid text clash */
+        width: 60%;
+        right: 0;
+        top: auto;
+        bottom: 5%;
+        opacity: 1;
+        transform: none;
     }
 }

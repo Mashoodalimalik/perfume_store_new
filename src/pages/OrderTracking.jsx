@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useOrders } from '../context/OrderContext';
+import { useAuth } from '../context/AuthContext';
 import Button from '../components/Button';
 import { Search, Package, CheckCircle, Clock, Truck, XCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -12,6 +13,10 @@ const OrderTracking = () => {
     const [selectedOrder, setSelectedOrder] = useState(null);
     const [error, setError] = useState('');
     const { orders } = useOrders();
+
+    const { user } = useAuth();
+
+    const myOrders = user ? orders.filter(o => o.email === user.email) : [];
 
     const handleSearch = (e) => {
         e.preventDefault();
@@ -182,14 +187,39 @@ const OrderTracking = () => {
                     </div>
                 )}
 
+                {/* Logged in User's Orders */}
+                {!selectedOrder && foundOrders.length === 0 && user && myOrders.length > 0 && (
+                    <div className="found-orders-list">
+                        <h3>My Orders</h3>
+                        {myOrders.map(order => (
+                            <div key={order.id} className="order-list-item" onClick={() => setSelectedOrder(order)}>
+                                <div className="list-item-info">
+                                    <span className="list-item-id">Order #{order.id}</span>
+                                    <span className="list-item-date">{new Date(order.date).toLocaleDateString()}</span>
+                                </div>
+                                <div className={`status-badge-sm ${order.status.toLowerCase()}`}>
+                                    {order.status}
+                                </div>
+                                <div className="list-item-total">${order.total.toLocaleString()}</div>
+                            </div>
+                        ))}
+                    </div>
+                )}
+
+                {/* No Orders Message for Logged In User */}
+                {!selectedOrder && foundOrders.length === 0 && user && myOrders.length === 0 && !error && (
+                    <div className="text-center" style={{ color: 'var(--color-text-secondary)', marginTop: '2rem' }}>
+                        <p>You haven't placed any orders yet.</p>
+                    </div>
+                )}
+
+
                 {/* Single Order Details */}
                 {selectedOrder && (
                     <div>
-                        {foundOrders.length > 1 && (
-                            <button className="back-to-list-btn" onClick={() => setSelectedOrder(null)}>
-                                &larr; Back to Order List
-                            </button>
-                        )}
+                        <button className="back-to-list-btn" onClick={() => setSelectedOrder(null)}>
+                            &larr; Back to Order List
+                        </button>
                         {renderOrderDetails(selectedOrder)}
                     </div>
                 )}
@@ -198,5 +228,6 @@ const OrderTracking = () => {
     );
 
 
-    export default OrderTracking;
 };
+
+export default OrderTracking;

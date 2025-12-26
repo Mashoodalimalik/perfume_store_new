@@ -199,3 +199,9 @@
 .mobile-logout-btn:hover {
     color: var(--color-error);
 }
+
+@media (max-width: 768px) {
+    .user-greeting {
+        display: none;
+    }
+}

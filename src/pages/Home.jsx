@@ -73,7 +73,7 @@ const Home = () => {
                 </div>
             </section>
 
-            <section className="banner">
+            <section className="banner-section">
                 <div className="banner-content">
                     <h2>The Art of Perfumery</h2>
                     <p>Experience the finest ingredients sourced from around the globe.</p>
