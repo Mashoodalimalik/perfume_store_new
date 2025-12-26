@@ -240,6 +240,41 @@
     text-transform: uppercase;
 }
 
+.status-badge-lg.pending,
+.status-badge-sm.pending {
+    background: #fff7ed;
+    color: #ea580c;
+    border: 1px solid #ffedd5;
+}
+
+.status-badge-lg.processing,
+.status-badge-sm.processing {
+    background: #eff6ff;
+    color: #2563eb;
+    border: 1px solid #dbeafe;
+}
+
+.status-badge-lg.shipped,
+.status-badge-sm.shipped {
+    background: #f0fdf4;
+    color: #16a34a;
+    border: 1px solid #dcfce7;
+}
+
+.status-badge-lg.delivered,
+.status-badge-sm.delivered {
+    background: #ecfdf5;
+    color: #059669;
+    border: 1px solid #d1fae5;
+}
+
+.status-badge-lg.cancelled,
+.status-badge-sm.cancelled {
+    background: #fef2f2;
+    color: #dc2626;
+    border: 1px solid #fee2e2;
+}
+
 /* ... */
 .step-label {
     font-size: 0.8rem;
