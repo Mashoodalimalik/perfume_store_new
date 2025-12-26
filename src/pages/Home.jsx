@@ -62,7 +62,7 @@ const Home = () => {
                     <h2>Featured Collections</h2>
                     <p>Handpicked favorites for specialized occasions.</p>
                 </div>
-                <div className="product-grid">
+                <div className="product-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '2rem' }}>
                     {finalFeaturedProducts.length > 0 ? (
                         finalFeaturedProducts.map(product => (
                             <ProductCard key={product.id} product={product} />

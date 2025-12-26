@@ -9,10 +9,9 @@ const pageVariants = {
     exit: { opacity: 0, y: -20, transition: { duration: 0.3, ease: "easeIn" } }
 };
 
-const GiftSets = () => {
+const BestSellers = () => {
     const { products } = useProducts();
-    // placeholder filtering for gift sets
-    const giftSets = products.filter(p => p.collections?.includes('gift-set'));
+    const bestSellers = products.filter(p => p.collections?.includes('best-seller'));
 
     return (
         <motion.div
@@ -23,14 +22,17 @@ const GiftSets = () => {
             animate="animate"
             exit="exit"
         >
-            <h1 className="section-title text-center" style={{ marginBottom: '3rem', fontSize: '3rem' }}>Gift Sets</h1>
+            <h1 className="section-title text-center" style={{ marginBottom: '3rem', fontSize: '3rem' }}>Best Sellers</h1>
             <div className="grid-products">
-                {giftSets.map(product => (
+                {bestSellers.map(product => (
                     <ProductCard key={product.id} product={product} />
                 ))}
             </div>
+            {bestSellers.length === 0 && (
+                <p className="text-center" style={{ color: 'var(--color-text-secondary)' }}>No best sellers at the moment.</p>
+            )}
         </motion.div>
     );
 };
 
-export default GiftSets;
+export default BestSellers;

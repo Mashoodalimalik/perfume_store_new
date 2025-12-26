@@ -19,6 +19,7 @@ import OrderSuccess from './pages/OrderSuccess';
 import NewArrivals from './pages/NewArrivals';
 import Sale from './pages/Sale';
 import GiftSets from './pages/GiftSets';
+import BestSellers from './pages/BestSellers';
 import { AnimatePresence } from 'framer-motion';
 
 // Scroll to top on route change
@@ -33,11 +34,13 @@ const ScrollToTop = () => {
 const App = () => {
   const location = useLocation();
 
+  const isAdminRoute = location.pathname.startsWith('/admin');
+
   return (
     <div className="app">
-      <Navbar />
+      {!isAdminRoute && <Navbar />}
       <ScrollToTop />
-      <main>
+      <main style={isAdminRoute ? { paddingTop: 0 } : {}}>
         <AnimatePresence mode="wait">
           <Routes location={location} key={location.pathname}>
             <Route path="/" element={<Home />} />
@@ -62,12 +65,13 @@ const App = () => {
             <Route path="/careers" element={<Careers />} />
             <Route path="/product/:id" element={<Shop />} /> {/* Placeholder to avoid 404 */}
             <Route path="/new-arrivals" element={<NewArrivals />} />
+            <Route path="/best-sellers" element={<BestSellers />} />
             <Route path="/sale" element={<Sale />} />
             <Route path="/gift-sets" element={<GiftSets />} />
           </Routes>
         </AnimatePresence>
       </main>
-      <Footer />
+      {!isAdminRoute && <Footer />}
     </div>
   );
 };

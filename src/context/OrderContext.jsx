@@ -5,9 +5,16 @@ const OrderContext = createContext();
 export const useOrders = () => useContext(OrderContext);
 
 export const OrderProvider = ({ children }) => {
+    const INITIAL_ORDERS = [
+        { id: '1001', date: new Date(Date.now() - 86400000).toISOString(), customer: 'Jane Doe', total: 240, status: 'Processed', items: [{ name: 'Midnight Rose', qty: 2 }] },
+        { id: '1002', date: new Date().toISOString(), customer: 'John Smith', total: 145, status: 'Pending', items: [{ name: 'Golden Amber', qty: 1 }] },
+        { id: '1003', date: new Date(Date.now() - 172800000).toISOString(), customer: 'Alice Brown', total: 375, status: 'Processed', items: [{ name: 'Velvet Oud', qty: 1 }, { name: 'Mystic Saffron', qty: 1 }] },
+        { id: '1004', date: new Date().toISOString(), customer: 'Bob Wilson', total: 95, status: 'Pending', items: [{ name: 'Ocean Breeze', qty: 1 }] },
+    ];
+
     const [orders, setOrders] = useState(() => {
         const savedOrders = localStorage.getItem('orders');
-        return savedOrders ? JSON.parse(savedOrders) : [];
+        return savedOrders ? JSON.parse(savedOrders) : INITIAL_ORDERS;
     });
 
     useEffect(() => {

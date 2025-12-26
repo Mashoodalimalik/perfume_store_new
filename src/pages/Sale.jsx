@@ -11,8 +11,7 @@ const pageVariants = {
 
 const Sale = () => {
     const { products } = useProducts();
-    // specific filtering for sale items
-    const saleProducts = products.filter(p => p.price < 100);
+    const saleProducts = products.filter(p => p.collections?.includes('sale'));
 
     return (
         <motion.div

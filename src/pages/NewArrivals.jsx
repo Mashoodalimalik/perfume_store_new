@@ -12,7 +12,7 @@ const pageVariants = {
 const NewArrivals = () => {
     const { products } = useProducts();
     // specific filtering can be added here
-    const newArrivals = products.slice(0, 3);
+    const newArrivals = products.filter(p => p.collections?.includes('new-arrival'));
 
     return (
         <motion.div
