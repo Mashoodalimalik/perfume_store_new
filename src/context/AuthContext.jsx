@@ -59,6 +59,11 @@ export const AuthProvider = ({ children }) => {
         // Auto login after signup
         setUser({ name, email });
         localStorage.setItem('currentUser', JSON.stringify({ name, email }));
+
+        // Simulate Email Confirmation
+        console.log(`[Email Service] Sending account confirmation to ${email}`);
+        alert(`Welcome, ${name}! A confirmation email has been sent to ${email}. Please check your inbox.`);
+
         return { success: true };
     };
 

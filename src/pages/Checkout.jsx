@@ -34,6 +34,10 @@ const Checkout = () => {
         // Clear cart
         clearCart();
 
+        // Simulate Order Email
+        console.log(`[Email Service] Sending order confirmation to ${formData.email}`);
+        alert(`Order placed successfully! A confirmation email has been sent to ${formData.email}.`);
+
         // Redirect
         navigate('/order-success');
     };

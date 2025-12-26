@@ -143,7 +143,14 @@ const AdminProducts = () => {
     return (
         <div className="admin-products">
             <header className="admin-page-header">
-                <h1>Product Management</h1>
+                <div>
+                    <h1>Product Management</h1>
+                    <p style={{ color: '#888', fontSize: '0.85rem', marginTop: '5px', maxWidth: '600px' }}>
+                        Note: This application currently uses <strong>Local Storage</strong>.
+                        Products added on this device (e.g., Phone) are stored locally in the browser and
+                        <strong>will not be visible</strong> on other devices (e.g., PC).
+                    </p>
+                </div>
                 <Button onClick={openAddModal}>
                     <Plus size={18} /> Add Product
                 </Button>

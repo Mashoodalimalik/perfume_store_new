@@ -1,22 +1,39 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { supabase } from '../supabaseClient';
 import Button from '../components/Button';
 import './CustomerAuth.css';
 
 const Signup = () => {
     const [formData, setFormData] = useState({ name: '', email: '', password: '' });
     const [error, setError] = useState('');
-    const { customerSignup } = useAuth();
     const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        const result = customerSignup(formData.name, formData.email, formData.password);
-        if (result.success) {
-            navigate('/');
-        } else {
-            setError(result.message);
+
+        try {
+            const { data, error } = await supabase.auth.signUp({
+                email: formData.email,
+                password: formData.password,
+                options: {
+                    data: {
+                        full_name: formData.name,
+                    },
+                },
+            });
+
+            if (error) {
+                setError(error.message);
+                alert("Error: " + error.message);
+            } else {
+                alert("Success! Please check your email for a confirmation link.");
+                // Optional: navigate to login or stay here
+                // navigate('/login'); 
+            }
+        } catch (err) {
+            setError(err.message);
+            alert("Error: " + err.message);
         }
     };
 
