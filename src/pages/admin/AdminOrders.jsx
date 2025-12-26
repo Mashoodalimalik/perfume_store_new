@@ -44,29 +44,40 @@ const AdminOrders = () => {
                     <tbody>
                         {orders.map(order => (
                             <tr key={order.id}>
-                                <td>#{order.id}</td>
-                                <td>{order.customer}</td>
-                                <td>{new Date(order.date).toLocaleDateString()}</td>
+                                <td style={{ color: '#d4af37', fontWeight: 'bold' }}>#{order.id}</td>
                                 <td>
-                                    <div style={{ fontSize: '0.9rem' }}>
-                                        {order.items.map((item, idx) => (
-                                            <div key={idx}>{item.qty}x {item.name}</div>
-                                        ))}
+                                    <div style={{ color: '#fff', fontWeight: '500' }}>{order.customer}</div>
+                                    <div style={{ fontSize: '0.8rem', color: '#666' }}>{order.email || 'customer@example.com'}</div>
+                                </td>
+                                <td style={{ color: '#aaa' }}>{new Date(order.date).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}</td>
+                                <td>
+                                    <div style={{ fontSize: '0.9rem', color: '#e0e0e0' }}>
+                                        {order.items[0]?.qty}x {order.items[0]?.name}
+                                        {order.items.length > 1 && <span style={{ color: '#888', marginLeft: '4px', fontSize: '0.8rem' }}>+{order.items.length - 1} more</span>}
                                     </div>
                                 </td>
-                                <td>${order.total.toFixed(2)}</td>
+                                <td style={{ fontWeight: '600', color: '#fff' }}>${order.total.toFixed(2)}</td>
                                 <td>
-                                    <span className={`status-badge ${order.status.toLowerCase()}`}>
+                                    <span className={`status-badge-pill ${order.status.toLowerCase()}`}>
                                         {order.status}
                                     </span>
                                 </td>
                                 <td>
-                                    <div style={{ display: 'flex', gap: '8px' }}>
+                                    <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                                         <select
                                             value={order.status}
                                             onClick={(e) => e.stopPropagation()}
                                             onChange={(e) => handleStatusChange(order.id, e.target.value)}
-                                            style={{ padding: '4px 8px', borderRadius: '4px', border: '1px solid #cbd5e1' }}
+                                            style={{
+                                                padding: '6px 12px',
+                                                borderRadius: '20px',
+                                                border: '1px solid #444',
+                                                background: '#242424',
+                                                color: '#e0e0e0',
+                                                fontSize: '0.85rem',
+                                                cursor: 'pointer',
+                                                outline: 'none'
+                                            }}
                                         >
                                             <option value="Pending">Pending</option>
                                             <option value="Processing">Processing</option>
@@ -78,15 +89,28 @@ const AdminOrders = () => {
                                             size="sm"
                                             variant="secondary"
                                             onClick={() => navigate(`/admin/orders/${order.id}`)}
-                                            className="action-view-btn"
+                                            style={{
+                                                borderRadius: '20px',
+                                                padding: '6px 16px',
+                                                fontSize: '0.75rem',
+                                                borderColor: '#666',
+                                                color: '#e0e0e0'
+                                            }}
                                         >
-                                            VIEW
+                                            DETAILS
                                         </Button>
                                         <button
                                             onClick={() => handleDeleteOrder(order.id)}
-                                            className="action-btn delete"
                                             title="Delete Order"
-                                            style={{ border: '1px solid #ff6b6b', color: '#ff6b6b' }}
+                                            style={{
+                                                background: 'transparent',
+                                                border: 'none',
+                                                color: '#ff6b6b',
+                                                cursor: 'pointer',
+                                                padding: '6px',
+                                                display: 'flex',
+                                                alignItems: 'center'
+                                            }}
                                         >
                                             <Trash2 size={16} />
                                         </button>
