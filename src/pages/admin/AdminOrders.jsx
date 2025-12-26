@@ -2,14 +2,22 @@ import React from 'react';
 import { useOrders } from '../../context/OrderContext';
 import { useAuditLogs } from '../../context/AuditLogContext';
 import Button from '../../components/Button';
+import { Trash2 } from 'lucide-react';
 
 const AdminOrders = () => {
-    const { orders, updateOrderStatus } = useOrders();
+    const { orders, updateOrderStatus, deleteOrder } = useOrders();
     const { addLog } = useAuditLogs();
 
     const handleStatusChange = (orderId, newStatus) => {
         updateOrderStatus(orderId, newStatus);
         addLog('Updated Order Status', `Changed order #${orderId} status to ${newStatus}`);
+    };
+
+    const handleDeleteOrder = (orderId) => {
+        if (window.confirm('Are you sure you want to delete this order?')) {
+            deleteOrder(orderId);
+            addLog('Deleted Order', `Deleted order #${orderId}`);
+        }
     };
 
     return (
@@ -68,13 +76,18 @@ const AdminOrders = () => {
                                             size="sm"
                                             variant="secondary"
                                             onClick={() => window.location.href = `/admin/orders/${order.id}`}
-                                        // Using href or useNavigate if we import it, but Link is better. Let's stick to inline simple nav or just import Link. 
-                                        // Actually I can't import Link easily inside this replace block without changing imports. 
-                                        // Let's use window.location for now or I can add a Link import in a separate call. 
-                                        // Wait, I can just use a simple button that navigates. 
+                                            className="action-view-btn"
                                         >
-                                            View
+                                            VIEW
                                         </Button>
+                                        <button
+                                            onClick={() => handleDeleteOrder(order.id)}
+                                            className="action-btn delete"
+                                            title="Delete Order"
+                                            style={{ border: '1px solid #ff6b6b', color: '#ff6b6b' }}
+                                        >
+                                            <Trash2 size={16} />
+                                        </button>
                                     </div>
                                 </td>
                             </tr>

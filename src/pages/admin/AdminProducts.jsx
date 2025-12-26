@@ -138,11 +138,11 @@ const AdminProducts = () => {
                         {products.map(product => (
                             <tr key={product.id}>
                                 <td>
-                                    <img src={product.image} alt={product.name} style={{ width: '40px', height: '40px', objectFit: 'cover', borderRadius: '4px' }} />
+                                    <img src={product.image} alt={product.name} className="product-thumb" />
                                 </td>
-                                <td>{product.name}</td>
-                                <td>{product.category}</td>
-                                <td>${product.price}</td>
+                                <td style={{ color: '#e0e0e0' }}>{product.name}</td>
+                                <td style={{ color: '#aaa' }}>{product.category}</td>
+                                <td style={{ fontWeight: '600' }}>${product.price}</td>
                                 <td>
                                     {product.collections?.map(c => (
                                         <span key={c} className="badge" style={{ marginRight: '5px', fontSize: '10px' }}>

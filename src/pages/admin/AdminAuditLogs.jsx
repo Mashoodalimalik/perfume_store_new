@@ -35,12 +35,12 @@ const AdminAuditLogs = () => {
                         <tbody>
                             {logs.map(log => (
                                 <tr key={log.id}>
-                                    <td style={{ whiteSpace: 'nowrap', fontSize: '0.9rem' }}>
+                                    <td style={{ color: '#666', fontSize: '0.85rem' }}>
                                         {new Date(log.timestamp).toLocaleString()}
                                     </td>
-                                    <td>{log.user}</td>
-                                    <td><strong>{log.action}</strong></td>
-                                    <td style={{ color: '#475569' }}>{log.details}</td>
+                                    <td style={{ color: '#888' }}>{log.user}</td>
+                                    <td style={{ color: '#e0e0e0', fontWeight: '500' }}>{log.action}</td>
+                                    <td style={{ color: '#aaa' }}>{log.details}</td>
                                 </tr>
                             ))}
                         </tbody>
