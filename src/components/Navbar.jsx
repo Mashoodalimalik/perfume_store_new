@@ -40,6 +40,7 @@ const Navbar = () => {
                     <NavLink to="/new-arrivals">New Arrivals</NavLink>
                     <NavLink to="/gift-sets">Gift Sets</NavLink>
                     <NavLink to="/sale">Sale</NavLink>
+                    <NavLink to="/track-order">Track Order</NavLink>
                 </div>
 
                 <div className="nav-actions">
@@ -87,6 +88,7 @@ const Navbar = () => {
                         <NavLink to="/new-arrivals" onClick={() => setIsMobileMenuOpen(false)}>New Arrivals</NavLink>
                         <NavLink to="/gift-sets" onClick={() => setIsMobileMenuOpen(false)}>Gift Sets</NavLink>
                         <NavLink to="/sale" onClick={() => setIsMobileMenuOpen(false)}>Sale</NavLink>
+                        <NavLink to="/track-order" onClick={() => setIsMobileMenuOpen(false)}>Track Order</NavLink>
                         <NavLink to="/about" onClick={() => setIsMobileMenuOpen(false)}>Our Story</NavLink>
                         {!user && (
                             <NavLink to="/login" onClick={() => setIsMobileMenuOpen(false)}>Login</NavLink>

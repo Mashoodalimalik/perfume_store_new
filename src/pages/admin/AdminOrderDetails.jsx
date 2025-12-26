@@ -14,7 +14,7 @@ const AdminOrderDetails = () => {
     const [order, setOrder] = useState(null);
 
     useEffect(() => {
-        const foundOrder = orders.find(o => o.id === id || o.id === parseInt(id));
+        const foundOrder = orders.find(o => String(o.id) === String(id));
         setOrder(foundOrder);
     }, [id, orders]);
 

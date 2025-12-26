@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useOrders } from '../../context/OrderContext';
 import { useAuditLogs } from '../../context/AuditLogContext';
 import Button from '../../components/Button';
@@ -7,6 +8,7 @@ import { Trash2 } from 'lucide-react';
 const AdminOrders = () => {
     const { orders, updateOrderStatus, deleteOrder } = useOrders();
     const { addLog } = useAuditLogs();
+    const navigate = useNavigate();
 
     const handleStatusChange = (orderId, newStatus) => {
         updateOrderStatus(orderId, newStatus);
@@ -75,7 +77,7 @@ const AdminOrders = () => {
                                         <Button
                                             size="sm"
                                             variant="secondary"
-                                            onClick={() => window.location.href = `/admin/orders/${order.id}`}
+                                            onClick={() => navigate(`/admin/orders/${order.id}`)}
                                             className="action-view-btn"
                                         >
                                             VIEW

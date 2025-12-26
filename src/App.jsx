@@ -28,6 +28,7 @@ import Sale from './pages/Sale';
 import ProductDetails from './pages/ProductDetails';
 import GiftSets from './pages/GiftSets';
 import BestSellers from './pages/BestSellers';
+import OrderTracking from './pages/OrderTracking';
 import { AnimatePresence } from 'framer-motion';
 
 // Scroll to top on route change
@@ -84,6 +85,7 @@ const App = () => {
             <Route path="/best-sellers" element={<BestSellers />} />
             <Route path="/sale" element={<Sale />} />
             <Route path="/gift-sets" element={<GiftSets />} />
+            <Route path="/track-order" element={<OrderTracking />} />
           </Routes>
         </AnimatePresence>
       </main>
