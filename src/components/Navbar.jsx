@@ -30,7 +30,11 @@ const Navbar = () => {
     const handleSearchSubmit = (e) => {
         e.preventDefault();
         setIsSearchOpen(false);
-        navigate('/shop');
+        if (searchQuery.trim()) {
+            navigate(`/shop?q=${encodeURIComponent(searchQuery)}`);
+        } else {
+            navigate('/shop');
+        }
     };
 
     return (
@@ -89,23 +93,39 @@ const Navbar = () => {
 
                 {/* Mobile Menu */}
                 <div className={`mobile-menu ${isMobileMenuOpen ? 'open' : ''}`}>
-                    <div className="mobile-links">
-                        <NavLink to="/" onClick={() => setIsMobileMenuOpen(false)}>Home</NavLink>
-                        <NavLink to="/shop" onClick={() => setIsMobileMenuOpen(false)}>Shop All</NavLink>
-                        <NavLink to="/best-sellers" onClick={() => setIsMobileMenuOpen(false)}>Best Sellers</NavLink>
-                        <NavLink to="/new-arrivals" onClick={() => setIsMobileMenuOpen(false)}>New Arrivals</NavLink>
-                        <NavLink to="/gift-sets" onClick={() => setIsMobileMenuOpen(false)}>Gift Sets</NavLink>
-                        <NavLink to="/sale" onClick={() => setIsMobileMenuOpen(false)}>Sale</NavLink>
-                        <NavLink to="/track-order" onClick={() => setIsMobileMenuOpen(false)}>Track Order</NavLink>
-                        <NavLink to="/about" onClick={() => setIsMobileMenuOpen(false)}>Our Story</NavLink>
-                        {!user && (
-                            <NavLink to="/login" onClick={() => setIsMobileMenuOpen(false)}>Login</NavLink>
+                    <div className="mobile-menu-header">
+                        <span className="mobile-menu-title">Menu</span>
+                        <button className="mobile-close-btn" onClick={() => setIsMobileMenuOpen(false)}>
+                            <X size={24} />
+                        </button>
+                    </div>
+
+                    <div className="mobile-links-list">
+                        <NavLink to="/" onClick={() => setIsMobileMenuOpen(false)} className="mobile-link-item">Home</NavLink>
+                        <NavLink to="/shop" onClick={() => setIsMobileMenuOpen(false)} className="mobile-link-item">Shop All</NavLink>
+                        <NavLink to="/new-arrivals" onClick={() => setIsMobileMenuOpen(false)} className="mobile-link-item">New Arrivals</NavLink>
+                        <NavLink to="/best-sellers" onClick={() => setIsMobileMenuOpen(false)} className="mobile-link-item">Best Sellers</NavLink>
+                        <NavLink to="/gift-sets" onClick={() => setIsMobileMenuOpen(false)} className="mobile-link-item">Gift Sets</NavLink>
+                        <NavLink to="/sale" onClick={() => setIsMobileMenuOpen(false)} className="mobile-link-item text-accent">Sale</NavLink>
+                        <NavLink to="/track-order" onClick={() => setIsMobileMenuOpen(false)} className="mobile-link-item">Track Order</NavLink>
+                        <NavLink to="/about" onClick={() => setIsMobileMenuOpen(false)} className="mobile-link-item">Our Story</NavLink>
+                    </div>
+
+                    <div className="mobile-menu-footer">
+                        {user ? (
+                            <div className="mobile-auth-section">
+                                <button className="mobile-footer-link logout" onClick={() => { handleLogout(); setIsMobileMenuOpen(false); }}>
+                                    <LogOut size={20} /> Log out ({user.name.split(' ')[0]})
+                                </button>
+                            </div>
+                        ) : (
+                            <Link to="/login" onClick={() => setIsMobileMenuOpen(false)} className="mobile-footer-link">
+                                <User size={20} /> Login / Register
+                            </Link>
                         )}
-                        {user && (
-                            <button className="mobile-logout-btn" onClick={() => { handleLogout(); setIsMobileMenuOpen(false); }}>
-                                Logout ({user.name})
-                            </button>
-                        )}
+                        <Link to="/wishlist" onClick={() => setIsMobileMenuOpen(false)} className="mobile-footer-link">
+                            <Heart size={20} /> My Wishlist
+                        </Link>
                     </div>
                 </div>
             </div>
