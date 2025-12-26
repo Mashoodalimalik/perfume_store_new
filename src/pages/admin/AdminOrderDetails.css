@@ -1,6 +1,9 @@
+/* Admin Order Details - Dark Theme */
 .admin-order-details {
     padding: 2rem;
-    color: var(--color-text-primary);
+    color: #e0e0e0;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .page-header {
@@ -13,57 +16,84 @@
     gap: 0.5rem;
     background: none;
     border: none;
-    color: var(--color-text-secondary);
+    color: #a0a0a0;
     cursor: pointer;
     font-size: 0.9rem;
     margin-bottom: 1rem;
+    transition: color 0.2s;
 }
 
 .back-link:hover {
-    color: var(--color-primary);
+    color: #d4af37; /* Gold hover */
 }
 
 .header-content {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
 }
 
 .header-content h1 {
     font-size: 2rem;
-    font-weight: 600;
+    font-weight: 500;
+    font-family: 'Playfair Display', serif;
+    color: #fff;
+    margin: 0;
 }
 
 .status-control {
     display: flex;
     align-items: center;
     gap: 1rem;
-    background: white;
+    background: #2a2a2a;
     padding: 0.5rem 1rem;
     border-radius: 8px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border: 1px solid #333;
+}
+
+.status-control .label {
+    color: #a0a0a0;
+    font-size: 0.9rem;
 }
 
 .status-select {
-    padding: 0.25rem 0.5rem;
-    border: 1px solid #e2e8f0;
+    padding: 0.4rem 0.8rem;
+    border: 1px solid #404040;
     border-radius: 4px;
     font-weight: 500;
+    background-color: #1a1a1a;
+    color: #fff;
+    cursor: pointer;
 }
 
+.status-select:focus {
+    border-color: #d4af37;
+    outline: none;
+}
+
+/* Grid Layout */
 .order-grid {
     display: grid;
     grid-template-columns: 2fr 1fr;
     gap: 2rem;
 }
 
+@media (max-width: 900px) {
+    .order-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Detail Cards */
 .detail-card {
-    background: white;
+    background: #1a1a1a;
     border-radius: 12px;
     padding: 1.5rem;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
     margin-bottom: 1.5rem;
-    border: 1px solid #f1f5f9;
+    border: 1px solid #333;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
 .detail-card h2 {
@@ -71,9 +101,13 @@
     font-weight: 600;
     margin-bottom: 1.25rem;
     padding-bottom: 0.75rem;
-    border-bottom: 1px solid #f1f5f9;
+    border-bottom: 1px solid #2a2a2a;
+    color: #fff;
+    font-family: 'Playfair Display', serif;
+    letter-spacing: 0.5px;
 }
 
+/* Order Items */
 .order-items-list {
     display: flex;
     flex-direction: column;
@@ -85,7 +119,7 @@
     align-items: center;
     gap: 1rem;
     padding-bottom: 1rem;
-    border-bottom: 1px dashed #f1f5f9;
+    border-bottom: 1px solid #2a2a2a;
 }
 
 .order-item:last-child {
@@ -95,11 +129,12 @@
 .item-image-placeholder {
     width: 60px;
     height: 60px;
-    background: #f8fafc;
+    background: #242424;
     border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
+    border: 1px solid #333;
 }
 
 .item-details {
@@ -109,21 +144,24 @@
 .item-details h3 {
     font-weight: 500;
     margin-bottom: 0.25rem;
+    color: #e0e0e0;
 }
 
 .item-details p {
-    color: var(--color-text-secondary);
+    color: #888;
     font-size: 0.9rem;
 }
 
 .item-price {
     font-weight: 600;
+    color: #d4af37; /* Gold for price */
 }
 
+/* Summary */
 .order-summary {
     margin-top: 2rem;
     padding-top: 1rem;
-    border-top: 1px solid #f1f5f9;
+    border-top: 1px solid #2a2a2a;
 }
 
 .summary-row {
@@ -131,18 +169,19 @@
     justify-content: space-between;
     margin-bottom: 0.75rem;
     font-size: 0.95rem;
-    color: var(--color-text-secondary);
+    color: #a0a0a0;
 }
 
 .summary-row.total {
     font-size: 1.2rem;
     font-weight: 700;
-    color: var(--color-text-primary);
+    color: #fff;
     margin-top: 1rem;
-    border-top: 2px solid #f1f5f9;
+    border-top: 1px solid #2a2a2a;
     padding-top: 1rem;
 }
 
+/* Info Groups */
 .info-group {
     display: flex;
     gap: 1rem;
@@ -152,23 +191,26 @@
 .info-group .icon {
     width: 32px;
     height: 32px;
-    background: #f8fafc;
+    background: #242424;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #64748b;
+    color: #d4af37; /* Gold icons */
+    border: 1px solid #333;
 }
 
 .info-group label {
     display: block;
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     text-transform: uppercase;
-    color: var(--color-text-secondary);
-    margin-bottom: 0.2rem;
-    letter-spacing: 0.05em;
+    color: #666;
+    margin-bottom: 0.25rem;
+    letter-spacing: 1px;
+    font-weight: 600;
 }
 
 .info-group p {
     font-weight: 500;
+    color: #e0e0e0;
 }
