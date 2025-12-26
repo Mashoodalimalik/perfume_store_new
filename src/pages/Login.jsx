@@ -48,7 +48,7 @@ const Login = () => {
                             value={formData.identifier}
                             onChange={(e) => setFormData({ ...formData, identifier: e.target.value })}
                             className="auth-input"
-                            placeholder="Enter your email or 'admin'"
+                            placeholder="enter your email or username"
                         />
                     </div>
                     <div className="form-group">
