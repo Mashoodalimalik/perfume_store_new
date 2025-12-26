@@ -5,6 +5,7 @@ import { useCart } from '../context/CartContext';
 import Button from '../components/Button';
 import { motion } from 'framer-motion';
 import { ArrowLeft, ShoppingBag, Star, Share2, Heart } from 'lucide-react';
+import { useWishlist } from '../context/WishlistContext';
 import './ProductDetails.css';
 
 const ProductDetails = () => {
@@ -12,6 +13,7 @@ const ProductDetails = () => {
     const navigate = useNavigate();
     const { getProduct } = useProducts();
     const { addToCart } = useCart();
+    const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(true);
 
@@ -97,8 +99,13 @@ const ProductDetails = () => {
                                 <ShoppingBag size={20} style={{ marginRight: '8px' }} />
                                 Add to Cart
                             </Button>
-                            <button className="wishlist-btn" aria-label="Add to wishlist">
-                                <Heart size={24} />
+
+                            <button
+                                className={`wishlist-btn ${isInWishlist(product.id) ? 'active' : ''}`}
+                                onClick={() => isInWishlist(product.id) ? removeFromWishlist(product.id) : addToWishlist(product)}
+                                aria-label="Add to wishlist"
+                            >
+                                <Heart size={24} fill={isInWishlist(product.id) ? "currentColor" : "none"} />
                             </button>
                             <button className="share-btn" aria-label="Share">
                                 <Share2 size={24} />
@@ -117,8 +124,8 @@ const ProductDetails = () => {
                         </div>
                     </motion.div>
                 </div>
-            </div>
-        </div>
+            </div >
+        </div >
     );
 };
 

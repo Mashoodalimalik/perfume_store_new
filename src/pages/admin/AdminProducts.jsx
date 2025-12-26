@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useProducts } from '../../context/ProductContext';
 import { useAuditLogs } from '../../context/AuditLogContext';
 import Button from '../../components/Button';
-import { Plus, Edit, Trash2, X, Check } from 'lucide-react';
+import { Plus, Edit, Trash2, X, Check, Upload } from 'lucide-react';
 
 const AdminProducts = () => {
     const { products, addProduct, updateProduct, deleteProduct } = useProducts();
@@ -58,6 +58,17 @@ const AdminProducts = () => {
         setFormData({ ...formData, [name]: value });
     };
 
+    const handleImageUpload = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setFormData({ ...formData, image: reader.result });
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
     const handleCollectionChange = (collection) => {
         if (formData.collections.includes(collection)) {
             setFormData({
@@ -74,6 +85,12 @@ const AdminProducts = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        if (!formData.image) {
+            alert("Please upload an image for the product.");
+            return;
+        }
+
         const productData = {
             ...formData,
             price: parseFloat(formData.price)
@@ -176,8 +193,29 @@ const AdminProducts = () => {
                                 </div>
                             </div>
                             <div className="form-group">
-                                <label>Image URL</label>
-                                <input type="text" name="image" value={formData.image} onChange={handleInputChange} required />
+                                <label>Product Image</label>
+                                <div className="image-upload-wrapper" style={{ border: '2px dashed #ddd', padding: '1rem', borderRadius: '8px', textAlign: 'center' }}>
+                                    <input
+                                        type="file"
+                                        accept="image/*"
+                                        onChange={handleImageUpload}
+                                        id="image-upload"
+                                        style={{ display: 'none' }}
+                                    />
+                                    <label htmlFor="image-upload" style={{ cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
+                                        {formData.image ? (
+                                            <div style={{ position: 'relative' }}>
+                                                <img src={formData.image} alt="Preview" style={{ maxHeight: '150px', borderRadius: '8px' }} />
+                                                <div style={{ marginTop: '8px', fontSize: '0.9rem', color: '#666' }}>Click to change image</div>
+                                            </div>
+                                        ) : (
+                                            <>
+                                                <Upload size={32} color="#888" />
+                                                <span style={{ color: '#666' }}>Click to upload image</span>
+                                            </>
+                                        )}
+                                    </label>
+                                </div>
                             </div>
                             <div className="form-group">
                                 <label>Collections</label>

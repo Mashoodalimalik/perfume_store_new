@@ -7,6 +7,7 @@ import Shop from './pages/Shop';
 import Cart from './pages/Cart';
 import About from './pages/About';
 import AdminLogin from './pages/AdminLogin';
+import Wishlist from './pages/Wishlist';
 // New Admin Pages
 import AdminLayout from './components/AdminLayout';
 import AdminOverview from './pages/admin/AdminOverview';
@@ -56,6 +57,7 @@ const App = () => {
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/order-success" element={<OrderSuccess />} />
             <Route path="/about" element={<About />} />
+            <Route path="/wishlist" element={<Wishlist />} />
 
             {/* Admin Routes */}
             <Route path="/admin/login" element={<AdminLogin />} />

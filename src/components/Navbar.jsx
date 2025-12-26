@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
-import { ShoppingBag, Menu, X, Search, User, LogOut } from 'lucide-react';
+import { ShoppingBag, Menu, X, Search, User, LogOut, Heart } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import './Navbar.css';
@@ -59,6 +59,12 @@ const Navbar = () => {
                             <User size={20} />
                         </Link>
                     )}
+
+
+
+                    <Link to="/wishlist" className="icon-btn" aria-label="Wishlist">
+                        <Heart size={20} />
+                    </Link>
 
                     <Link to="/cart" className="icon-btn cart-btn" aria-label="Cart">
                         <ShoppingBag size={20} />

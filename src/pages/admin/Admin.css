@@ -2,8 +2,7 @@
 .admin-container {
     display: flex;
     min-height: 100vh;
-    background-color: #1a1ced;
-    /* Darkish background from screenshot approx */
+
     background-color: #1c1c1c;
     /* Better dark theme match */
     color: #333;
@@ -19,7 +18,212 @@
     /* Match container */
 }
 
-/* Sidebar needs adjustment for dark mode? Or keep white sidebar? Screenshot implies dark/black background dashboard. Let's make sidebar compatible or keep white for contrast. User prompt says "make a nav bar on the left side". Let's stick to existing sidebar but maybe tweak colors if requested. For now, focus on Overview content. */
+
+
+/* Sidebar Styles */
+.admin-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 260px;
+    height: 100vh;
+    background-color: #2c2c2c;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    z-index: 100;
+    transition: transform 0.3s ease;
+    border-right: 1px solid #404040;
+}
+
+.sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #404040;
+}
+
+.sidebar-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: #fff;
+    margin: 0;
+}
+
+.close-sidebar {
+    display: none;
+    /* Only on mobile */
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+}
+
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    flex: 1;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-radius: 8px;
+    color: #a0a0a0;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.nav-item:hover {
+    background-color: #383838;
+    color: #fff;
+}
+
+.nav-item.active {
+    background-color: #dbe4ff;
+    color: #1a1a1a;
+    /* Dark text for contrast against light blue */
+}
+
+.sidebar-footer {
+    padding-top: 1rem;
+    border-top: 1px solid #404040;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.logout-btn {
+    width: 100%;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 1rem;
+    text-align: left;
+}
+
+.logout-btn:hover {
+    background-color: #ffe8e8;
+    color: #d00000;
+}
+
+/* Sidebar Overlay */
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 99;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.admin-mobile-header {
+    display: none;
+    /* Hidden on desktop */
+}
+
+/* Mobile Responsive Sidebar */
+@media (max-width: 900px) {
+    .admin-main {
+        margin-left: 0;
+        padding-top: 80px;
+        /* Increased space for mobile header */
+        width: 100%;
+    }
+
+    /* Header fixed at top */
+    .admin-mobile-header {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 70px;
+        background-color: #2c2c2c;
+        /* Match sidebar color */
+        padding: 0 1.5rem;
+        z-index: 1001;
+        /* Higher than sidebar overlay */
+        color: #fff;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .menu-toggle {
+        background: none;
+        border: none;
+        color: #fff;
+        cursor: pointer;
+        padding: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .admin-logo {
+        font-family: 'Playfair Display', serif;
+        font-size: 1.4rem;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+    }
+
+    /* Sidebar Drawer Styles */
+    .admin-sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 280px;
+        /* Slightly wider */
+        height: 100vh;
+        z-index: 1002;
+        /* Top of everything */
+        transform: translateX(-100%);
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        background-color: #242424;
+        box-shadow: 4px 0 15px rgba(0, 0, 0, 0.3);
+        border-right: none;
+    }
+
+    .admin-sidebar.active {
+        transform: translateX(0);
+    }
+
+    .sidebar-overlay {
+        z-index: 1000;
+        /* Below sidebar, above content */
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(2px);
+    }
+
+    .sidebar-header {
+        margin-bottom: 2rem;
+        padding: 1rem 0;
+    }
+
+    .close-sidebar {
+        display: block;
+        padding: 8px;
+        border-radius: 50%;
+        background-color: rgba(255, 255, 255, 0.1);
+        transition: background-color 0.2s;
+    }
+
+    .close-sidebar:active {
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+}
 
 /* Overview Page Specifics */
 .admin-overview {
