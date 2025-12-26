@@ -40,6 +40,14 @@ const Navbar = () => {
     return (
         <nav className={`navbar ${isSearchOpen ? 'search-active' : ''} ${isScrolled ? 'scrolled' : ''}`}>
             <div className="container navbar-container">
+                <button
+                    className="mobile-menu-trigger"
+                    onClick={() => setIsMobileMenuOpen(true)}
+                    aria-label="Open Menu"
+                >
+                    <Menu size={24} />
+                </button>
+
                 <Link to="/" className="logo">
                     L'ESSENCE
                 </Link>
@@ -83,12 +91,6 @@ const Navbar = () => {
                         <ShoppingBag size={20} />
                         {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
                     </Link>
-                    <button
-                        className="icon-btn mobile-only"
-                        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                    >
-                        {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-                    </button>
                 </div>
 
                 {/* Mobile Menu */}

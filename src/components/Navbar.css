@@ -301,20 +301,26 @@
     color: var(--color-error);
 }
 
+.mobile-menu-trigger {
+    display: none;
+    background: transparent;
+    border: none;
+    color: var(--color-text-primary);
+    cursor: pointer;
+    padding: 0.5rem;
+    margin-right: 1rem;
+    /* Space between hamburger and logo */
+}
+
 @media (max-width: 1024px) {
     .desktop-only {
         display: none;
     }
 
-    .mobile-only {
-        display: flex !important;
-        color: var(--color-text-primary);
-        z-index: 1002;
-        cursor: pointer;
-        visibility: visible;
-        border: 1px solid rgba(128, 128, 128, 0.3);
-        border-radius: 4px;
-        /* Ensure above overlay */
+    .mobile-menu-trigger {
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 }
 

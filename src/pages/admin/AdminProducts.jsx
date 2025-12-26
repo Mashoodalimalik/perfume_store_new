@@ -19,6 +19,7 @@ const AdminProducts = () => {
         category: '',
         price: '',
         image: '',
+        gallery: [],
         collections: []
     });
 
@@ -31,7 +32,7 @@ const AdminProducts = () => {
 
     const openAddModal = () => {
         setIsEditing(false);
-        setFormData({ name: '', category: '', price: '', image: '', collections: [] });
+        setFormData({ name: '', category: '', price: '', image: '', gallery: [], collections: [] });
         setIsModalOpen(true);
     };
 
@@ -43,6 +44,7 @@ const AdminProducts = () => {
             category: product.category,
             price: product.price,
             image: product.image,
+            gallery: product.gallery || [],
             collections: product.collections || []
         });
         setIsModalOpen(true);
@@ -67,6 +69,31 @@ const AdminProducts = () => {
             };
             reader.readAsDataURL(file);
         }
+    };
+
+    const handleGalleryUpload = async (e) => {
+        const files = Array.from(e.target.files);
+        if (files.length === 0) return;
+
+        const base64Files = await Promise.all(files.map(file => {
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.onloadend = () => resolve(reader.result);
+                reader.readAsDataURL(file);
+            });
+        }));
+
+        setFormData(prev => ({
+            ...prev,
+            gallery: [...prev.gallery, ...base64Files]
+        }));
+    };
+
+    const removeGalleryImage = (index) => {
+        setFormData(prev => ({
+            ...prev,
+            gallery: prev.gallery.filter((_, i) => i !== index)
+        }));
     };
 
     const handleCollectionChange = (collection) => {
@@ -193,7 +220,7 @@ const AdminProducts = () => {
                                 </div>
                             </div>
                             <div className="form-group">
-                                <label>Product Image</label>
+                                <label>Main Product Image</label>
                                 <div className="image-upload-wrapper" style={{ border: '2px dashed #ddd', padding: '1rem', borderRadius: '8px', textAlign: 'center' }}>
                                     <input
                                         type="file"
@@ -206,17 +233,53 @@ const AdminProducts = () => {
                                         {formData.image ? (
                                             <div style={{ position: 'relative' }}>
                                                 <img src={formData.image} alt="Preview" style={{ maxHeight: '150px', borderRadius: '8px' }} />
-                                                <div style={{ marginTop: '8px', fontSize: '0.9rem', color: '#666' }}>Click to change image</div>
+                                                <div style={{ marginTop: '8px', fontSize: '0.9rem', color: '#666' }}>Click to change main image</div>
                                             </div>
                                         ) : (
                                             <>
                                                 <Upload size={32} color="#888" />
-                                                <span style={{ color: '#666' }}>Click to upload image</span>
+                                                <span style={{ color: '#666' }}>Click to upload main image</span>
                                             </>
                                         )}
                                     </label>
                                 </div>
                             </div>
+
+                            <div className="form-group">
+                                <label>Additional Images (Gallery)</label>
+                                <div className="image-upload-wrapper" style={{ border: '2px dashed #ddd', padding: '1rem', borderRadius: '8px', textAlign: 'center' }}>
+                                    <input
+                                        type="file"
+                                        accept="image/*"
+                                        multiple
+                                        onChange={handleGalleryUpload}
+                                        id="gallery-upload"
+                                        style={{ display: 'none' }}
+                                    />
+                                    <label htmlFor="gallery-upload" style={{ cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', marginBottom: '1rem' }}>
+                                        <Upload size={24} color="#888" />
+                                        <span style={{ color: '#666' }}>Click to upload additional images</span>
+                                    </label>
+
+                                    {formData.gallery.length > 0 && (
+                                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(80px, 1fr))', gap: '8px', width: '100%' }}>
+                                            {formData.gallery.map((img, index) => (
+                                                <div key={index} style={{ position: 'relative', aspectRatio: '1' }}>
+                                                    <img src={img} alt={`Gallery ${index}`} style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '4px' }} />
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => removeGalleryImage(index)}
+                                                        style={{ position: 'absolute', top: '-5px', right: '-5px', background: 'red', color: 'white', border: 'none', borderRadius: '50%', width: '20px', height: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}
+                                                    >
+                                                        <X size={12} />
+                                                    </button>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+
                             <div className="form-group">
                                 <label>Collections</label>
                                 <div className="checkbox-group">
