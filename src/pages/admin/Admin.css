@@ -13,18 +13,9 @@
     flex: 1;
     padding: 2.5rem;
     overflow-y: auto;
-    margin-left: 0;
-    transition: margin-left 0.3s ease;
+    margin-left: 260px;
     background-color: #121212;
     /* Consistent Dark Background */
-}
-
-.admin-main.sidebar-open {
-    margin-left: 260px;
-}
-
-background-color: #121212;
-/* Consistent Dark Background */
 }
 
 /* Typography */
@@ -37,16 +28,13 @@ background-color: #121212;
     letter-spacing: 0.5px;
 }
 
-padding-top: 80px;
-}
+
 
 .admin-mobile-header {
     display: none;
 }
 
-.desktop-menu-toggle {
-    display: none !important;
-}
+
 
 .admin-mobile-header {
     display: flex;
@@ -65,19 +53,22 @@ padding-top: 80px;
     border-bottom: 1px solid #2a2a2a;
 }
 
-.desktop-menu-toggle {
-    display: none !important;
-}
+
 
 .admin-sidebar {
-    transform: translateX(-100%);
-    transition: transform 0.3s ease;
-    border-right: none;
-    box-shadow: 10px 0 30px rgba(0, 0, 0, 0.5);
-}
-
-.admin-sidebar.active {
-    transform: translateX(0);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 260px;
+    height: 100vh;
+    background-color: #1a1a1a;
+    /* Slightly Lighter Dark Sidebar */
+    border-right: 1px solid #2a2a2a;
+    color: #bfbfbf;
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+    z-index: 100;
 }
 
 .sidebar-overlay {
@@ -93,7 +84,7 @@ padding-top: 80px;
 .sidebar-overlay.active {
     display: block;
 }
-}
+
 
 /* Modal Styles */
 .modal-overlay {
