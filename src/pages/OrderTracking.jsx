@@ -107,12 +107,12 @@ const OrderTracking = () => {
                     {order.items.map((item, idx) => (
                         <div key={idx} className="track-item">
                             <span>{item.qty}x {item.name}</span>
-                            <span>${(item.price ? item.price * item.qty : 0).toLocaleString()}</span>
+                            <span>PKR {(item.price ? item.price * item.qty : 0).toLocaleString()}</span>
                         </div>
                     ))}
                     <div className="track-total">
                         <span>Total Amount</span>
-                        <span>${order.total.toLocaleString()}</span>
+                        <span>PKR {order.total.toLocaleString()}</span>
                     </div>
                 </div>
             </motion.div>
@@ -181,7 +181,7 @@ const OrderTracking = () => {
                                 <div className={`status-badge-sm ${order.status.toLowerCase()}`}>
                                     {order.status}
                                 </div>
-                                <div className="list-item-total">${order.total.toLocaleString()}</div>
+                                <div className="list-item-total">PKR {order.total.toLocaleString()}</div>
                             </div>
                         ))}
                     </div>
@@ -200,7 +200,7 @@ const OrderTracking = () => {
                                 <div className={`status-badge-sm ${order.status.toLowerCase()}`}>
                                     {order.status}
                                 </div>
-                                <div className="list-item-total">${order.total.toLocaleString()}</div>
+                                <div className="list-item-total">PKR {order.total.toLocaleString()}</div>
                             </div>
                         ))}
                     </div>

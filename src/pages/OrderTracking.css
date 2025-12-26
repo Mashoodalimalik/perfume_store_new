@@ -49,14 +49,16 @@
     border-radius: 6px;
     font-size: 0.9rem;
     font-weight: 500;
-    color: var(--color-text-secondary);
+    color: #4b5563;
+    /* Darker gray */
     cursor: pointer;
     transition: all 0.2s;
 }
 
 .toggle-btn.active {
     background: white;
-    color: var(--color-primary);
+    color: #000;
+    /* Black for active */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
@@ -76,89 +78,39 @@
 .search-icon {
     position: absolute;
     left: 1rem;
-    color: #94a3b8;
+    color: #475569;
+    /* Darker icon */
 }
 
 .tracking-input {
     width: 100%;
     padding: 1rem 1rem 1rem 3rem;
-    border: 1px solid #e2e8f0;
+    border: 1px solid #cbd5e1;
+    /* Slightly darker border */
     border-radius: 8px;
     font-size: 1rem;
     transition: all 0.2s;
+    color: #000;
+    /* Black input text */
 }
 
-.tracking-input:focus {
-    border-color: var(--color-primary);
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
-}
-
-.error-message {
-    background-color: #fee2e2;
-    color: #ef4444;
-    padding: 1rem;
-    border-radius: 8px;
-    margin-bottom: 2rem;
-    text-align: center;
-}
-
-/* Found Orders List */
-.found-orders-list {
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-    border: 1px solid #f1f5f9;
-    overflow: hidden;
-    margin-bottom: 2rem;
-}
-
-.found-orders-list h3 {
-    padding: 1.5rem;
-    background: #f8fafc;
-    margin: 0;
-    font-size: 1rem;
-    color: var(--color-text-secondary);
-    border-bottom: 1px solid #e2e8f0;
-}
-
-.order-list-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1.5rem;
-    border-bottom: 1px solid #f1f5f9;
-    cursor: pointer;
-    transition: background 0.2s;
-}
-
-.order-list-item:last-child {
-    border-bottom: none;
-}
-
-.order-list-item:hover {
-    background-color: #f8fafc;
-}
-
-.list-item-info {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
+/* ... existing styles ... */
 .list-item-id {
-    font-weight: 600;
-    color: var(--color-text-primary);
+    font-weight: 700;
+    color: #000000;
+    /* Black */
 }
 
 .list-item-date {
     font-size: 0.85rem;
-    color: var(--color-text-secondary);
+    color: #333333;
+    /* Dark gray */
 }
 
 .list-item-total {
     font-weight: 700;
-    color: var(--color-primary);
+    color: #bfa15f;
+    /* Gold accent, check contrast or use darker gold */
 }
 
 .back-to-list-btn {

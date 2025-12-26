@@ -37,7 +37,7 @@ const ProductCard = ({ product }) => {
                 </h3>
                 <p className="product-category">{product.category}</p>
                 <div className="product-footer">
-                    <span className="product-price">${product.price.toFixed(2)}</span>
+                    <p className="product-card-price">PKR {product.price.toFixed(2)}</p>
                     <button
                         className="add-to-cart-icon"
                         aria-label="Add to cart"

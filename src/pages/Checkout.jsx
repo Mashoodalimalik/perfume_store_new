@@ -190,7 +190,7 @@ const Checkout = () => {
                         </div>
 
                         <Button type="submit" style={{ width: '100%', marginTop: '1rem' }}>
-                            Place Order (${cartTotal.toFixed(2)})
+                            Place Order (PKR {cartTotal.toFixed(2)})
                         </Button>
                     </form>
                 </div>
@@ -204,12 +204,12 @@ const Checkout = () => {
                                     <p style={{ fontWeight: '500' }}>{item.name} x {item.quantity}</p>
                                     <p style={{ fontSize: '0.9rem', color: 'var(--color-text-secondary)' }}>{item.category}</p>
                                 </div>
-                                <span>${(item.price * item.quantity).toFixed(2)}</span>
+                                <span>PKR {(item.price * item.quantity).toFixed(2)}</span>
                             </div>
                         ))}
                         <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '1rem', fontWeight: 'bold', fontSize: '1.2rem' }}>
                             <span>Total</span>
-                            <span>${cartTotal.toFixed(2)}</span>
+                            <span>PKR {cartTotal.toFixed(2)}</span>
                         </div>
                     </div>
                 </div>

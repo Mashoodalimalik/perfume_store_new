@@ -312,7 +312,13 @@
     /* Space between hamburger and logo */
 }
 
-@media (max-width: 1280px) {
+.nav-links {
+    display: flex;
+    gap: 1rem;
+    /* Reduced from 1.5rem */
+}
+
+@media (max-width: 1350px) {
     .desktop-only {
         display: none;
     }

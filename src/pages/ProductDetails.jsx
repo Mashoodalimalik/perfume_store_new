@@ -80,7 +80,7 @@ const ProductDetails = () => {
                         </div>
 
                         <div className="product-price-section">
-                            <span className="price">${product.price.toFixed(2)}</span>
+                            <span className="price">PKR {product.price.toFixed(2)}</span>
                         </div>
 
                         <p className="product-description">

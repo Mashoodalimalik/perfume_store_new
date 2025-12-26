@@ -34,7 +34,7 @@ const Cart = () => {
                             <div className="cart-item-details">
                                 <h3>{item.name}</h3>
                                 <p className="cart-item-category">{item.category}</p>
-                                <span className="cart-item-price">${item.price.toFixed(2)}</span>
+                                <p className="cart-item-price">PKR {item.price.toFixed(2)}</p>
                             </div>
                             <div className="cart-item-actions">
                                 <div className="quantity-controls">
@@ -45,6 +45,9 @@ const Cart = () => {
                                     <button onClick={() => updateQuantity(item.id, item.quantity + 1)}>
                                         <Plus size={16} />
                                     </button>
+                                </div>
+                                <div className="cart-item-total">
+                                    PKR {(item.price * item.quantity).toFixed(2)}
                                 </div>
                                 <button className="remove-btn" onClick={() => removeFromCart(item.id)}>
                                     <Trash2 size={20} />
@@ -58,7 +61,7 @@ const Cart = () => {
                     <h2>Order Summary</h2>
                     <div className="summary-row">
                         <span>Subtotal</span>
-                        <span>${cartTotal.toFixed(2)}</span>
+                        <span>PKR {cartTotal.toFixed(2)}</span>
                     </div>
                     <div className="summary-row">
                         <span>Shipping</span>
@@ -67,7 +70,7 @@ const Cart = () => {
                     <div className="summary-divider"></div>
                     <div className="summary-row total">
                         <span>Total</span>
-                        <span>${cartTotal.toFixed(2)}</span>
+                        <span>PKR {cartTotal.toFixed(2)}</span>
                     </div>
                     <Link to="/checkout" style={{ width: '100%' }}>
                         <Button className="checkout-btn" style={{ width: '100%' }}>Proceed to Checkout</Button>
