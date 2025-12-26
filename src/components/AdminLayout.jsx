@@ -16,7 +16,7 @@ import '../pages/admin/Admin.css';
 const AdminLayout = () => {
     const { adminLogout } = useAuth();
     const navigate = useNavigate();
-    const [isSidebarOpen, setIsSidebarOpen] = React.useState(false);
+    const [isSidebarOpen, setIsSidebarOpen] = React.useState(true);
 
     const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
     const closeSidebar = () => setIsSidebarOpen(false);
@@ -80,7 +80,30 @@ const AdminLayout = () => {
             </aside>
 
             {/* Main Content Area */}
-            <main className="admin-main">
+            <main className={`admin-main ${isSidebarOpen ? 'sidebar-open' : ''}`}>
+                {!isSidebarOpen && (
+                    <button
+                        className="desktop-menu-toggle"
+                        onClick={toggleSidebar}
+                        style={{
+                            position: 'fixed',
+                            top: '20px',
+                            left: '20px',
+                            zIndex: 50,
+                            background: '#1a1a1a',
+                            border: '1px solid #333',
+                            color: '#e0e0e0',
+                            padding: '8px',
+                            borderRadius: '8px',
+                            cursor: 'pointer',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                        }}
+                    >
+                        <Menu size={24} />
+                    </button>
+                )}
                 <Outlet />
             </main>
         </div>
