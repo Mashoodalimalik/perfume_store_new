@@ -3,7 +3,13 @@ import { createContext, useContext, useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { useRouter } from 'next/navigation';
 
-const AuthContext = createContext();
+const AuthContext = createContext({
+    user: null,
+    loading: true,
+    login: async () => ({}),
+    signup: async () => {},
+    logout: async () => {}
+});
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
