@@ -10,9 +10,9 @@ export default function Login() {
   const { login } = useAuth();
   const router = useRouter();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const result = login(email, password);
+    const result = await login(email, password);
     if (result.success) {
         if (result.role === 'admin') {
             router.push('/admin');
@@ -20,7 +20,7 @@ export default function Login() {
             router.push('/');
         }
     } else {
-        alert("Invalid credentials");
+        alert("Invalid credentials. Please check your email and password.");
     }
   };
 

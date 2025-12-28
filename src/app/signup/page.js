@@ -11,10 +11,13 @@ export default function Signup() {
   const { signup } = useAuth();
   const router = useRouter();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (signup(name, email, password)) {
+    const success = await signup(name, email, password);
+    if (success) {
         router.push('/');
+    } else {
+        alert("Signup failed. Please try again.");
     }
   };
 
