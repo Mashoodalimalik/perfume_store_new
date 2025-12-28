@@ -1,45 +1,79 @@
 "use client";
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import { orders as initialOrders } from '@/data/orders'; // Import mock data as initial state
+import { createContext, useContext, useState, useEffect } from "react";
+import { supabase } from "@/lib/supabase";
+import { useAuth } from "@/context/AuthContext";
 
 const OrderContext = createContext();
 
 export function OrderProvider({ children }) {
   const [orders, setOrders] = useState([]);
+  const { user } = useAuth(); // Depend on user to fetch their orders
 
-  // Load orders from local storage on mount
+  const fetchOrders = async () => {
+       const { data, error } = await supabase.from('orders').select('*').order('created_at', { ascending: false });
+       if (!error && data) {
+           setOrders(data);
+       }
+  };
+
   useEffect(() => {
-    const savedOrders = localStorage.getItem('orders');
-    if (savedOrders) {
-      setOrders(JSON.parse(savedOrders));
-    } else {
-      // Initialize with mock data if empty
-      setOrders(initialOrders);
-      localStorage.setItem('orders', JSON.stringify(initialOrders));
+    fetchOrders();
+
+    // Subscribe to changes
+    const subscription = supabase
+        .channel('public:orders')
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'orders' }, (payload) => {
+            if (payload.eventType === 'INSERT') {
+                setOrders(prev => [payload.new, ...prev]);
+            } else if (payload.eventType === 'UPDATE') {
+                setOrders(prev => prev.map(o => o.id === payload.new.id ? payload.new : o));
+            } else if (payload.eventType === 'DELETE') {
+                setOrders(prev => prev.filter(o => o.id !== payload.old.id));
+            }
+        })
+        .subscribe();
+
+    return () => {
+        supabase.removeChannel(subscription);
+    };
+  }, [user]); 
+
+  const addOrder = async (order) => {
+    try {
+        const { data, error } = await supabase.from('orders').insert([{
+            id: order.id,
+            user_id: user?.id || null, 
+            customer_name: order.customer,
+            email: order.email,
+            phone: order.phone,
+            address: order.address, 
+            status: order.status,
+            total: order.total,
+            items: order.items 
+        }]).select();
+
+        if (error) throw error;
+    } catch (err) {
+        console.error("Error creating order:", err);
     }
-  }, []);
+  };
 
-  // Save orders to local storage whenever they change
-  useEffect(() => {
-      if (orders.length > 0) {
-        localStorage.setItem('orders', JSON.stringify(orders));
+  const updateOrderStatus = async (id, status) => {
+      try {
+          const { error } = await supabase.from('orders').update({ status }).eq('id', id);
+          if (error) throw error;
+      } catch (err) {
+          console.error("Error updating order:", err);
       }
-  }, [orders]);
-
-  const addOrder = (newOrder) => {
-    setOrders((prevOrders) => [newOrder, ...prevOrders]);
   };
 
-  const updateOrderStatus = (orderId, newStatus) => {
-    setOrders((prevOrders) =>
-      prevOrders.map((order) =>
-        order.id === orderId ? { ...order, status: newStatus } : order
-      )
-    );
-  };
-
-  const deleteOrder = (orderId) => {
-    setOrders((prevOrders) => prevOrders.filter(order => order.id !== orderId));
+  const deleteOrder = async (id) => {
+      try {
+           const { error } = await supabase.from('orders').delete().eq('id', id);
+           if (error) throw error;
+      } catch (err) {
+          console.error("Error deleting order:", err);
+      }
   };
 
   return (

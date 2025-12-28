@@ -1,49 +1,92 @@
 "use client";
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import { products as initialProducts } from '@/data/products';
+import { createContext, useContext, useState, useEffect } from "react";
+import { supabase } from "@/lib/supabase";
+import { products as initialProducts } from "@/data/products"; 
 
 const AdminProductContext = createContext();
 
 export function AdminProductProvider({ children }) {
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState([]); 
+  const [loading, setLoading] = useState(true);
 
-  // Load products from local storage on mount
+  const fetchProducts = async () => {
+      try {
+          const { data, error } = await supabase.from('products').select('*');
+          if (error) throw error;
+          
+          if (data && data.length > 0) {
+              setProducts(data);
+          } else {
+              // If empty, fallback to initialProducts for display but don't seed automatically to avoid duplicates on every reload
+              // Or better: seed ONLY if truly empty and user is admin? 
+              // For now, let's just use initialProducts if DB is empty to prevent broken UI
+               setProducts(initialProducts);
+          }
+      } catch (err) {
+          console.error("Error loading products:", err);
+          setProducts(initialProducts); // Fallback
+      } finally {
+          setLoading(false);
+      }
+  };
+
   useEffect(() => {
-    const savedProducts = localStorage.getItem('admin_products');
-    if (savedProducts) {
-      setProducts(JSON.parse(savedProducts));
-    } else {
-      // Initialize with mock data if empty
-      setProducts(initialProducts);
-      // Don't save mock data immediately to keep localStorage clean? 
-      // Actually, for a mock app, better to save it so edits persist.
-      localStorage.setItem('admin_products', JSON.stringify(initialProducts));
-    }
+    fetchProducts();
   }, []);
 
-  // Save to local storage on change
-  useEffect(() => {
-    if (products.length > 0) {
-        localStorage.setItem('admin_products', JSON.stringify(products));
+  const addProduct = async (product) => {
+    try {
+        const { data, error } = await supabase.from('products').insert([{
+            name: product.name,
+            price: parseFloat(product.price.toString().replace('$','')), 
+            description: product.description,
+            image: product.image, 
+            category: product.category,
+            rating: 5
+        }]).select().single();
+
+        if (error) throw error;
+        setProducts(prev => [...prev, data]);
+    } catch (err) {
+        console.error("Error adding product:", err);
+        alert("Failed to add product. " + err.message);
     }
-  }, [products]);
+  };
+  
+  const updateProduct = async (id, updatedFields) => {
+      try {
+          const cleanFields = { ...updatedFields };
+          if (cleanFields.price) {
+               cleanFields.price = parseFloat(cleanFields.price.toString().replace('$',''));
+          }
 
-  const addProduct = (newProduct) => {
-    setProducts((prev) => [...prev, newProduct]);
+          const { data, error } = await supabase
+            .from('products')
+            .update(cleanFields)
+            .eq('id', id)
+            .select()
+            .single();
+
+          if (error) throw error;
+
+          setProducts(prev => prev.map(p => p.id === id ? data : p));
+      } catch (err) {
+          console.error("Error updating product:", err);
+      }
   };
 
-  const updateProduct = (id, updatedData) => {
-    setProducts((prev) => 
-        prev.map(p => p.id === id ? { ...p, ...updatedData } : p)
-    );
-  };
-
-  const deleteProduct = (id) => {
-    setProducts((prev) => prev.filter(p => p.id !== id));
+  const deleteProduct = async (id) => {
+      try {
+          const { error } = await supabase.from('products').delete().eq('id', id);
+          if (error) throw error;
+          setProducts(prev => prev.filter(p => p.id !== id));
+      } catch (err) {
+          console.error("Error deleting product:", err);
+      }
   };
 
   return (
-    <AdminProductContext.Provider value={{ products, addProduct, updateProduct, deleteProduct }}>
+    <AdminProductContext.Provider value={{ products, addProduct, updateProduct, deleteProduct, loading }}>
       {children}
     </AdminProductContext.Provider>
   );
