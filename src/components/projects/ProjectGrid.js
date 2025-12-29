@@ -28,6 +28,15 @@ function ProjectItem({ url, scale, position, onHover, onClick }) {
         onHover(true); 
         document.body.style.cursor = 'pointer'; 
       }}
+      onPointerDown={(e) => {
+        e.stopPropagation();
+        setHover(true);
+        onHover(true);
+      }}
+      onPointerUp={() => {
+        setHover(false);
+        onHover(false);
+      }}
       onPointerOut={() => { 
         setHover(false); 
         onHover(false); 
@@ -103,6 +112,12 @@ export default function ProjectGrid() {
              <GridContent />
         </ScrollControls>
       </Canvas>
+
+      <div className="absolute bottom-4 left-0 w-full text-center md:hidden pointer-events-none z-10">
+        <span className="text-white text-xs uppercase tracking-[0.2em] opacity-80 mix-blend-difference">
+            Hold to Preview
+        </span>
+      </div>
     </div>
   );
 }
