@@ -12,7 +12,17 @@ function ProjectItem({ url, scale, position, onHover, onClick }) {
   
   useFrame((state, delta) => {
     // Simple hover scale effect
-    ref.current.material.zoom = THREE.MathUtils.damp(ref.current.material.zoom, hovered ? 1.2 : 1, 4, delta);
+    // Hover scale effect + Z uplift
+    ref.current.material.zoom = THREE.MathUtils.damp(ref.current.material.zoom, hovered ? 1.0 : 1, 4, delta); // Reset zoom, use scale instead? Or stick to zoom. 
+    // Actually zoom property on Image material is for texture zoom. 
+    // Let's scale the mesh itself for "pop up".
+    const targetScale = hovered ? 1.1 : 1; 
+    ref.current.scale.x = THREE.MathUtils.damp(ref.current.scale.x, scale[0] * targetScale, 4, delta);
+    ref.current.scale.y = THREE.MathUtils.damp(ref.current.scale.y, scale[1] * targetScale, 4, delta);
+    
+    // Move Z towards camera to "pop up"
+    ref.current.position.z = THREE.MathUtils.damp(ref.current.position.z, position[2] + (hovered ? 1 : 0), 4, delta);
+
     ref.current.material.grayscale = THREE.MathUtils.damp(ref.current.material.grayscale, hovered ? 0 : 1.0, 4, delta); 
   });
 
@@ -113,8 +123,8 @@ export default function ProjectGrid() {
         </ScrollControls>
       </Canvas>
 
-      <div className="absolute bottom-4 left-0 w-full text-center md:hidden pointer-events-none z-10">
-        <span className="text-white text-xs uppercase tracking-[0.2em] opacity-80 mix-blend-difference">
+      <div className="absolute bottom-10 left-0 w-full flex justify-center pointer-events-none z-50 md:hidden">
+        <span className="bg-black/50 backdrop-blur-md text-white text-xs uppercase tracking-[0.2em] px-4 py-2 rounded-full border border-white/20">
             Hold to Preview
         </span>
       </div>
