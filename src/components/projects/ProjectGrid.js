@@ -49,8 +49,12 @@ function GridContent() {
   };
   
   // Dynamic horizontal layout
-  const gap = w / 10; // spacing between images
-  const itemWidth = w / 3.5;
+  const isMobile = w < 5; // Rough check for mobile portrait width (usually < 5 units in R3F default camera)
+  // Better check might be aspect ratio, but width is direct here.
+  // Actually, let's use a simple width check. on mobile w is small.
+  
+  const itemWidth = isMobile ? w * 0.7 : w / 3.5;
+  const gap = isMobile ? 0.5 : w / 10;
   const totalWidth = products.length * (itemWidth + gap);
 
   return (
@@ -64,13 +68,16 @@ function GridContent() {
         {products.map((product, index) => {
            // x position: starts from left (negative) to right
            // Let's center the first one or just start linear sequence
-           const x = (index * (itemWidth + gap)) - w/3; 
+           const x = (index * (itemWidth + gap)) - (isMobile ? 0 : w/3); 
+           // On mobile start from 0 to align left better with scroll, or center it differently.
+           // Actually subtract a bit to start from left edge roughly.
+ 
            
            return (
             <ProjectItem 
                 key={product.id}
                 url={product.image}
-                scale={[itemWidth, w / 2.5, 1]}
+                scale={[itemWidth, isMobile ? w * 1.2 : w / 2.5, 1]}
                 position={[x, 0, 0]}
                 onHover={() => {}}
                 onClick={() => handleProductClick(product.id)}

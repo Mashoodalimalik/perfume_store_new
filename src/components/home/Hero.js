@@ -10,33 +10,37 @@ export default function Hero() {
   const textRef = useRef(null);
 
   useEffect(() => {
-    const tl = gsap.timeline();
+    let ctx = gsap.context(() => {
+        const tl = gsap.timeline();
 
-    // Initial Reveal
-    tl.fromTo(
-      textRef.current.children,
-      { y: 100, opacity: 0, skewY: 10 },
-      {
-        y: 0,
-        opacity: 1,
-        skewY: 0,
-        duration: 1.2,
-        ease: "power4.out",
-        stagger: 0.1,
-      }
-    );
+        // Initial Reveal
+        tl.fromTo(
+          textRef.current.children,
+          { y: 100, opacity: 0, skewY: 10 },
+          {
+            y: 0,
+            opacity: 1,
+            skewY: 0,
+            duration: 1.2,
+            ease: "power4.out",
+            stagger: 0.1,
+          }
+        );
 
-    // Parallax Effect
-    gsap.to(textRef.current, {
-      yPercent: 50,
-      ease: "none",
-      scrollTrigger: {
-        trigger: heroRef.current,
-        start: "top top",
-        end: "bottom top",
-        scrub: true,
-      },
-    });
+        // Parallax Effect
+        gsap.to(textRef.current, {
+          yPercent: 50,
+          ease: "none",
+          scrollTrigger: {
+            trigger: heroRef.current,
+            start: "top top",
+            end: "bottom top",
+            scrub: true,
+          },
+        });
+    }, heroRef); // Scope to heroRef
+    
+    return () => ctx.revert(); // Cleanup
   }, []);
 
   return (

@@ -11,19 +11,26 @@ export default function Template({ children }) {
   const bannerFour = useRef(null);
 
   useEffect(() => {
-    animatePageIn();
+    const ctx = animatePageIn();
+    return () => ctx && ctx.revert();
   }, [pathname]);
 
   const animatePageIn = () => {
     const banners = [bannerOne.current, bannerTwo.current, bannerFour.current, bannerThree.current];
     if (banners[0]) {
-      gsap.set(banners, { yPercent: 0 });
-      gsap.to(banners, {
-        yPercent: 100,
-        duration: 0.8,
-        stagger: 0.1,
-        ease: "power2.inOut",
+      let ctx = gsap.context(() => {
+          gsap.set(banners, { yPercent: 0 });
+          gsap.to(banners, {
+            yPercent: 100,
+            duration: 0.8,
+            stagger: 0.1,
+            ease: "power2.inOut",
+          });
       });
+      // We can't revert immediately here, but since it's a transition it usually plays through.
+      // However, for best practice in React 18 strict mode, context is better used in useEffect.
+      // But since this is a function called from useEffect, we should probably move the context creation to the useEffect.
+      return ctx; 
     }
   };
 
