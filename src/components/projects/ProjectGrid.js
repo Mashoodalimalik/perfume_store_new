@@ -109,10 +109,22 @@ function GridContent() {
 }
 
 export default function ProjectGrid() {
-  // We need enough pages to scroll through all items.
-  // Rough estimate: Number of screens required.
-  const numItems = 9; // Approx
-  const pages = Math.max(2, numItems / 3); 
+  // Dynamic pages calculation
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  const numItems = products.length; // Use actual length
+  // Mobile: ~1 item per view -> need ~1 page per item + buffer
+  // Desktop: ~3 items per view -> need ~1/3 page per item
+  const pages = isMobile ? numItems * 0.9 : Math.max(2, numItems / 3); 
 
   return (
     <div className="h-screen w-full relative z-[1]"> 

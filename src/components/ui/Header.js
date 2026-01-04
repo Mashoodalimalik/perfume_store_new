@@ -105,14 +105,29 @@ export default function Header({ toggleMenu }) {
   }, []);
 
   useEffect(() => {
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-       setIsDark(true);
+    // Check localStorage first, then system preference
+    const storedTheme = localStorage.getItem("theme");
+    const systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
+    if (storedTheme === "dark" || (!storedTheme && systemDark)) {
+        setIsDark(true);
+        document.documentElement.classList.add("dark");
+    } else {
+        setIsDark(false);
+        document.documentElement.classList.remove("dark");
     }
   }, []);
 
   const toggleTheme = () => {
-    setIsDark(!isDark);
-    document.documentElement.classList.toggle("dark");
+    const newTheme = !isDark;
+    setIsDark(newTheme);
+    if (newTheme) {
+        document.documentElement.classList.add("dark");
+        localStorage.setItem("theme", "dark");
+    } else {
+        document.documentElement.classList.remove("dark");
+        localStorage.setItem("theme", "light");
+    }
   };
 
   return (
