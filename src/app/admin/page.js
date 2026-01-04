@@ -11,7 +11,7 @@ export default function AdminDashboard() {
   const totalRevenue = orders.reduce((acc, order) => acc + (typeof order.total === 'number' ? order.total : 0), 0); // Safety check for mocks vs real
   const totalOrders = orders.length;
   // Unique customers based on name
-  const totalCustomers = new Set(orders.map(o => o.customer)).size;
+  const totalCustomers = new Set(orders.map(o => o.customer_name || o.customer)).size;
 
   return (
     <div className="space-y-8 animate-fade-in-up">
@@ -80,7 +80,7 @@ export default function AdminDashboard() {
                     {orders.map((order) => (
                         <tr key={order.id} className="hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
                             <td className="px-6 py-4 font-mono text-sm opacity-70">{order.id}</td>
-                            <td className="px-6 py-4 font-medium">{order.customer}</td>
+                            <td className="px-6 py-4 font-medium">{order.customer_name || order.customer}</td>
                             <td className="px-6 py-4 text-sm opacity-70">{order.date}</td>
                             <td className="px-6 py-4">
                                 <button 

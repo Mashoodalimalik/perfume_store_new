@@ -166,7 +166,7 @@ export default function Checkout() {
                 {cart.map(item => (
                     <div key={item.id} className="flex justify-between items-center text-sm">
                         <div className="flex items-center gap-3">
-                            <div className="w-12 h-12 bg-white dark:bg-black rounded-md overflow-hidden relative">
+                            <div className="w-12 h-12 bg-white dark:bg-zinc-800 rounded-md overflow-hidden relative">
                                 <img src={item.image} className="object-cover w-full h-full" alt={item.name} />
                             </div>
                             <div>
