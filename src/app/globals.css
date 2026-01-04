@@ -16,25 +16,13 @@
   --spacing-128: 32rem;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #000000; /* Pure Black */
-    --foreground: #ffffff; /* Pure White */
-  }
-}
-
-/* Manual Dark Mode Override */
-.dark body {
+/* Dark Mode Variables */
+.dark {
   --background: #000000;
   --foreground: #ffffff;
-  color: var(--foreground);
-  background: var(--background);
-}
-.dark {
-    --background: #000000;
-    --foreground: #ffffff;
 }
 
+/* Apply variables to body */
 body {
   background: var(--background);
   color: var(--foreground);
