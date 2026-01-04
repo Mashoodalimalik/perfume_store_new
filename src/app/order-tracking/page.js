@@ -13,7 +13,7 @@ export default function OrderTracking() {
   const { orders } = useOrders();
 
   // Filter User Orders
-  const myOrders = orders.filter(o => user && o.customer.toLowerCase().includes(user.name.split(' ')[0].toLowerCase())); 
+  const myOrders = orders.filter(o => user && (o.customer_name || o.customer || '').toLowerCase().includes(user.name.split(' ')[0].toLowerCase())); 
 
   const handleTrack = (e) => {
     e.preventDefault();

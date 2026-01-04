@@ -160,7 +160,7 @@ export default function Checkout() {
         </div>
 
         {/* Right: Order Summary */}
-        <div className="bg-neutral-100 dark:bg-neutral-900 p-8 rounded-xl h-fit sticky top-32 animate-fade-in-up animation-delay-200">
+        <div className="bg-neutral-50 dark:bg-zinc-900 border border-neutral-200 dark:border-white/10 p-8 rounded-xl h-fit sticky top-32 animate-fade-in-up animation-delay-200 shadow-sm">
             <h2 className="text-xl font-bold uppercase tracking-widest mb-6">Order Summary</h2>
             <div className="space-y-4 mb-6 max-h-[40vh] overflow-y-auto pr-2 custom-scrollbar">
                 {cart.map(item => (
