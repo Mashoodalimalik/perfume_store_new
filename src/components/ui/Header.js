@@ -133,18 +133,20 @@ export default function Header({ toggleMenu }) {
   return (
     <header
       className={clsx(
-        "fixed top-0 left-0 w-full z-50 transition-all duration-300 px-6 md:px-12 py-4 flex justify-between items-center mix-blend-difference text-white",
-        isScrolled ? "py-2 backdrop-blur-md" : "py-6"
+        "fixed top-0 left-0 w-full z-50 transition-all duration-300 px-6 md:px-12 py-4 flex justify-between items-center pointer-events-none", // pointer-events-none allows clicking through empty header space
+        isScrolled ? "py-2 backdrop-blur-md bg-white/5" : "py-6" // Optional: visual cue when scrolled
       )}
     >
-      <Link href="/" className="text-2xl font-bold tracking-tighter uppercase font-sans z-50 mix-blend-mode-difference" aria-label="Home">
-        PERFUME<span className="font-light">STORE</span>
-      </Link>
+      <div className="pointer-events-auto">
+        <Link href="/" className="text-2xl font-bold tracking-tighter uppercase font-sans z-50 mix-blend-difference text-white" aria-label="Home">
+            PERFUME<span className="font-light">STORE</span>
+        </Link>
+      </div>
 
-      <div className="flex items-center gap-6 z-50">
+      <div className="flex items-center gap-6 z-50 pointer-events-auto">
         <button
           onClick={toggleTheme}
-          className="hover:scale-110 transition-transform hidden md:block"
+          className="hover:scale-110 transition-transform hidden md:block mix-blend-difference text-white"
           aria-label="Toggle Theme"
         >
           {isDark ? <Sun size={20} /> : <Moon size={20} />}
@@ -156,7 +158,7 @@ export default function Header({ toggleMenu }) {
 
         <button
           onClick={toggleMenu}
-          className="flex items-center gap-2 uppercase text-sm font-medium tracking-widest group"
+          className="flex items-center gap-2 uppercase text-sm font-medium tracking-widest group mix-blend-difference text-white"
         >
           <span className="hidden md:block group-hover:-translate-x-1 transition-transform">Menu</span>
           <Menu size={24} className="group-hover:rotate-90 transition-transform duration-300" />
