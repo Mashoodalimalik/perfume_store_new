@@ -22,37 +22,37 @@ export default function AdminDashboard() {
       
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div className="bg-white dark:bg-black p-6 rounded-lg border border-gray-200 dark:border-white/10 shadow-sm flex items-center justify-between">
+        <div className="bg-neutral-50 dark:bg-zinc-900 p-6 rounded-lg border border-neutral-200 dark:border-white/10 shadow-sm flex items-center justify-between">
             <div>
                 <p className="text-sm uppercase tracking-widest opacity-60">Revenue</p>
-                <h3 className="text-2xl font-bold mt-1">${totalRevenue}</h3>
+                <h3 className="text-2xl font-bold mt-1 text-foreground">${totalRevenue}</h3>
             </div>
             <div className="p-3 bg-green-100 dark:bg-green-900/30 text-green-600 rounded-full">
                 <DollarSign size={24} />
             </div>
         </div>
-        <div className="bg-white dark:bg-black p-6 rounded-lg border border-gray-200 dark:border-white/10 shadow-sm flex items-center justify-between">
+        <div className="bg-neutral-50 dark:bg-zinc-900 p-6 rounded-lg border border-neutral-200 dark:border-white/10 shadow-sm flex items-center justify-between">
             <div>
                 <p className="text-sm uppercase tracking-widest opacity-60">Orders</p>
-                <h3 className="text-2xl font-bold mt-1">{totalOrders}</h3>
+                <h3 className="text-2xl font-bold mt-1 text-foreground">{totalOrders}</h3>
             </div>
             <div className="p-3 bg-blue-100 dark:bg-blue-900/30 text-blue-600 rounded-full">
                 <ShoppingCart size={24} />
             </div>
         </div>
-        <div className="bg-white dark:bg-black p-6 rounded-lg border border-gray-200 dark:border-white/10 shadow-sm flex items-center justify-between">
+        <div className="bg-neutral-50 dark:bg-zinc-900 p-6 rounded-lg border border-neutral-200 dark:border-white/10 shadow-sm flex items-center justify-between">
             <div>
                 <p className="text-sm uppercase tracking-widest opacity-60">Customers</p>
-                <h3 className="text-2xl font-bold mt-1">{totalCustomers}</h3>
+                <h3 className="text-2xl font-bold mt-1 text-foreground">{totalCustomers}</h3>
             </div>
             <div className="p-3 bg-purple-100 dark:bg-purple-900/30 text-purple-600 rounded-full">
                 <Users size={24} />
             </div>
         </div>
-        <div className="bg-white dark:bg-black p-6 rounded-lg border border-gray-200 dark:border-white/10 shadow-sm flex items-center justify-between">
+        <div className="bg-neutral-50 dark:bg-zinc-900 p-6 rounded-lg border border-neutral-200 dark:border-white/10 shadow-sm flex items-center justify-between">
             <div>
                 <p className="text-sm uppercase tracking-widest opacity-60">Avg Order</p>
-                <h3 className="text-2xl font-bold mt-1">${Math.round(totalRevenue/totalOrders)}</h3>
+                <h3 className="text-2xl font-bold mt-1 text-foreground">${Math.round(totalRevenue/totalOrders)}</h3>
             </div>
             <div className="p-3 bg-orange-100 dark:bg-orange-900/30 text-orange-600 rounded-full">
                 <TrendingUp size={24} />
@@ -61,7 +61,7 @@ export default function AdminDashboard() {
       </div>
 
       {/* Recent Orders Table */}
-      <div className="bg-white dark:bg-black rounded-lg border border-gray-200 dark:border-white/10 shadow-sm overflow-hidden">
+      <div className="bg-neutral-50 dark:bg-zinc-900 rounded-lg border border-neutral-200 dark:border-white/10 shadow-sm overflow-hidden">
         <div className="p-6 border-b border-gray-200 dark:border-white/10">
             <h2 className="text-lg font-bold uppercase tracking-wide">Recent Orders</h2>
         </div>
